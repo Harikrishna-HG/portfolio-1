@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Harikrishna Gautam - Portfolio
+
+A clean and modern portfolio website built with pure HTML, CSS, and JavaScript.
+
+## Features
+
+- **Responsive Design**: Fully responsive layout that works on all devices
+- **Smooth Animations**: Scroll-based animations and transitions
+- **Modern UI**: Clean and professional design with gradient backgrounds
+- **Sections**:
+  - Hero section with introduction
+  - About section with education details
+  - Projects showcase
+  - Certifications display
+  - Contact form
+  - Resume download
+  - Footer with social links
+
+## Technologies Used
+
+- HTML5
+- CSS3 (with CSS Grid and Flexbox)
+- Vanilla JavaScript (ES6+)
+- No frameworks or libraries required!
 
 ## Getting Started
 
-First, run the development server:
+1. Clone or download this repository
+2. Open `index.html` in your web browser
+3. No build process or installation required!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Customization
+
+### Update Personal Information
+
+Edit `index.html` to update:
+- Your name and titles
+- About section content
+- Projects list
+- Certifications
+- Contact information
+- Social media links
+
+### Modify Styles
+
+Edit `styles.css` to customize:
+- Colors (change CSS variables in `:root`)
+- Fonts
+- Spacing
+- Animations
+
+### Add Functionality
+
+Edit `script.js` to:
+- Add contact form backend integration
+- Customize scroll animations
+- Add more interactive features
+
+## File Structure
+
+```
+portfolio/
+├── index.html          # Main HTML file
+├── styles.css          # All styles
+├── script.js           # JavaScript functionality
+├── resume.pdf          # Your resume (replace with actual file)
+└── README.md           # This file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Browser Support
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+You can deploy this portfolio to:
+- GitHub Pages
+- Netlify
+- Vercel
+- Any static hosting service
 
-To learn more about Next.js, take a look at the following resources:
+Simply upload all files to your hosting provider.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Feel free to use this template for your own portfolio!
 
-## Deploy on Vercel
+## Contact
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Email: hrkshnagtm@gmail.com
+- GitHub: [Harikrishna-HG](https://github.com/Harikrishna-HG)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Made with ❤️ by Harikrishna Gautam
