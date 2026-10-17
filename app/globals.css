@@ -37,7 +37,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-family: var(--font-lato), var(--font-fallback);
 }
 
@@ -133,6 +132,7 @@ button {
 }
 
 .nav-link {
+  position: relative;
   display: block;
   width: 100%;
   padding: 5px 0;
@@ -148,6 +148,19 @@ button {
   transition: color 0.15s;
 }
 
+.nav-link::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: -20px;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .nav-link:hover {
   color: var(--text-primary);
   opacity: 1;
@@ -157,6 +170,10 @@ button {
 .nav-link.active {
   color: var(--text-primary);
   font-weight: 700;
+}
+
+.nav-link.active::before {
+  transform: scaleY(1);
 }
 
 .sidebar-controls {
@@ -262,6 +279,19 @@ button {
 .main-content {
   margin-left: var(--sidebar-width);
   min-height: 100vh;
+}
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: var(--sidebar-width);
+  z-index: 101;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
 }
 
 .section {
@@ -1017,18 +1047,7 @@ button {
   overflow: hidden;
   background: var(--bg);
   border-left: 1px solid var(--border);
-  animation: slideIn 0.2s;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  will-change: transform;
 }
 
 .modal-header {
@@ -1230,6 +1249,11 @@ button {
 
   .section {
     padding: 40px 24px;
+    scroll-margin-top: 67px;
+  }
+
+  .scroll-progress {
+    left: 0;
   }
 
   .home-header {

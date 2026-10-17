@@ -1,14 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { navSections, profile, ui } from "@/lib/data";
 import { MoonIcon, SunIcon } from "@/components/Icons";
 import { setLang, useLang, useT } from "@/components/LanguageProvider";
+import {
+  gsap,
+  MOBILE_TOPBAR_OFFSET,
+  isMobile,
+  prefersReducedMotion,
+  useIsoLayoutEffect,
+} from "@/lib/gsap";
 
 export default function Sidebar() {
   const [active, setActive] = useState<string>(navSections[0]?.id ?? "home");
   const lang = useLang();
   const t = useT();
+  const rootRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const sectionIds = navSections.map((s) => s.id);
@@ -36,6 +45,44 @@ export default function Sidebar() {
     };
   }, []);
 
+  useIsoLayoutEffect(() => {
+    if (prefersReducedMotion() || !rootRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .from(".sidebar-brand", { autoAlpha: 0, x: -18, duration: 0.55 })
+        .from(
+          ".nav-section-label",
+          { autoAlpha: 0, x: -14, duration: 0.4 },
+          "-=0.25",
+        )
+        .from(
+          ".nav-link",
+          { autoAlpha: 0, x: -14, duration: 0.4, stagger: 0.05 },
+          "-=0.2",
+        )
+        .from(
+          ".sidebar-controls",
+          { autoAlpha: 0, y: 14, duration: 0.45 },
+          "-=0.15",
+        );
+    }, rootRef);
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const btn = rootRef.current?.querySelector(
+      `.lang-toggle-btn.${lang}`,
+    );
+    if (!btn) return;
+    gsap.fromTo(
+      btn,
+      { scale: 0.8 },
+      { scale: 1, duration: 0.4, ease: "back.out(2.5)" },
+    );
+  }, [lang]);
+
   const toggleTheme = () => {
     const isDark = document.documentElement.classList.toggle("dark");
     try {
@@ -43,13 +90,38 @@ export default function Sidebar() {
     } catch {
       /* ignore */
     }
+    if (prefersReducedMotion()) return;
+    const icon = toggleRef.current?.querySelector("svg");
+    if (!icon) return;
+    gsap.fromTo(
+      icon,
+      { rotate: 0 },
+      { rotate: 180, duration: 0.4, ease: "power2.out" },
+    );
+  };
+
+  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const href = event.currentTarget.getAttribute("href");
+    if (!href?.startsWith("#")) return;
+    const target = document.querySelector(href);
+    if (!target) return;
+    event.preventDefault();
+    const offset = isMobile() ? MOBILE_TOPBAR_OFFSET : 0;
+    gsap.to(window, {
+      duration: prefersReducedMotion() ? 0 : 0.9,
+      ease: "power3.inOut",
+      scrollTo: { y: target as HTMLElement, offsetY: offset, autoKill: true },
+    });
+    if (history.replaceState) {
+      history.replaceState(null, "", href);
+    }
   };
 
   return (
-    <aside className="sidebar">
+    <aside className="sidebar" ref={rootRef}>
       <div className="sidebar-brand">
         <div className="sidebar-header">
-          <a className="sidebar-name" href="#home">
+          <a className="sidebar-name" href="#home" onClick={handleNavClick}>
             {profile.name}
           </a>
         </div>
@@ -64,6 +136,7 @@ export default function Sidebar() {
             href={`#${section.id}`}
             className={`nav-link${active === section.id ? " active" : ""}`}
             aria-current={active === section.id ? "true" : undefined}
+            onClick={handleNavClick}
           >
             {t(section.label)}
           </a>
@@ -97,6 +170,7 @@ export default function Sidebar() {
         <button
           type="button"
           className="toggle-btn"
+          ref={toggleRef}
           onClick={toggleTheme}
           aria-label={t(ui.toggleDark)}
         >
