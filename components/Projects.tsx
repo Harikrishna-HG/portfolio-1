@@ -3,7 +3,13 @@
 import { useRef, useState } from "react";
 import Section from "@/components/Section";
 import ProjectModal from "@/components/ProjectModal";
-import { navSections, projects, type Project, ui } from "@/lib/data";
+import {
+  navSections,
+  projects,
+  researchStatusLabels,
+  type Project,
+  ui,
+} from "@/lib/data";
 import { useLang, useT } from "@/components/LanguageProvider";
 import { gsap, prefersReducedMotion, useIsoLayoutEffect } from "@/lib/gsap";
 
@@ -75,7 +81,14 @@ function ProjectCard({
         </div>
       )}
       <div className="project-body">
-        <div className="project-date-col">{project.date}</div>
+        <div className="project-date-col">
+          <span>{project.date}</span>
+          {project.status ? (
+            <span className={`status-badge status-${project.status}`}>
+              {t(researchStatusLabels[project.status])}
+            </span>
+          ) : null}
+        </div>
         <div className="project-name">
           <button type="button" onClick={() => onSelect(project)}>
             {project.name}

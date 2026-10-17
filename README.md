@@ -12,11 +12,18 @@ modal for project details.
   button on mobile
 - **Dark / light theme** toggle persisted in `localStorage` (no flash on load)
 - **English / Nepali** language toggle — all copy is bilingual
-- **CV-style sections**: Home, Projects, Skills, Education, Activities,
-  Certifications, Languages, Contact
+- **CV-style sections**: Home, Projects, Research, Notes, Skills, Education,
+  Activities, Certifications, Languages, Contact
 - **Project detail modal** with summary, optional image, long-form body, and an
   optional case study (problem, role, technologies, technical decisions,
   outcomes) — empty fields are simply not rendered
+- **Research & learning projects** — regular projects can add optional research
+  fields (status, question, motivation, approach, methods, datasets, evaluation,
+  findings, limitations, references, responsible-practice note)
+- **Research interests** — a clearly framed, editable list of topics of
+  curiosity (not a claim of expertise)
+- **Reading notes** — short, own-words notes on papers and topics, with the
+  original source kept separate
 - **Project filtering** by technology — filter chips are derived from the
   projects' own tags
 - **Project thumbnails** — optional image per project, with a styled fallback
@@ -78,8 +85,10 @@ portfolio-1/
 │   ├── Icons.tsx           # Inline SVG icon set
 │   ├── LanguageProvider.tsx# English/Nepali state (localStorage)
 │   ├── Languages.tsx
+│   ├── Notes.tsx           # Reading notes (papers, experiments, topics)
 │   ├── ProjectModal.tsx    # Slide-in project detail panel + case study
 │   ├── Projects.tsx        # Project grid, cards, technology filters
+│   ├── Research.tsx        # Research interests
 │   ├── ScrollProgress.tsx  # Top progress bar
 │   ├── Section.tsx         # Shared section wrapper + heading
 │   ├── Sidebar.tsx         # Navigation, theme + language toggles
@@ -247,6 +256,55 @@ and `role` to a couple of sentences and use `body` blocks (`h2` + `ul`) for
 longer detail. To state an outcome, first make sure there is a public source you
 can point to, then put that sentence in `outcomes`.
 
+### Research & learning projects
+
+Research and learning work uses the **same `projects` array** — it just fills in
+optional research fields. Because they are ordinary projects, they appear in the
+grid, respond to the technology filters, and open in the same modal.
+
+```ts
+export const projects: Project[] = [
+  {
+    id: "sec-lab-notes",
+    name: "Web Security Lab Notes",
+    date: "2025",
+    description: bi("Notes from learning web security fundamentals.", "…"),
+    tags: ["Security", "Python"],
+    status: "in-progress",          // "idea" | "in-progress" | "completed"
+    question: bi("What are you trying to find out or learn?"),
+    motivation: bi("Why this interests you."),
+    approach: bi("How you are going about it."),
+    methods: { en: ["Method or tool"], ne: ["विधि वा उपकरण"] },
+    datasets: bi("Datasets used or planned."),        // optional
+    evaluation: bi("How results are judged."),         // optional
+    findings: { en: ["A lesson learned"], ne: ["सिकाइ"] },
+    limitations: { en: ["A caveat"], ne: ["सीमा"] },
+    ethics: bi("e.g. Testing was performed only in environments I am authorized to use."),
+    references: [
+      { label: bi("Author, Title, Year"), href: "https://…" }, // href optional
+    ],
+    links: [{ label: bi("Write-up"), href: "https://…" }],     // optional
+    tldr: bi("Short intro shown in the modal."),
+    body: [{ type: "p", content: bi("Notes…") }],
+  },
+];
+```
+
+All research fields are optional and render only when they have real text; you
+never get an empty label. `status` also shows as a small badge on the card and in
+the modal header.
+
+**Responsible practice** — do not imply authorization, safety, or completion you
+cannot support:
+
+- **Security work:** fill `ethics` only to state a fact you can stand behind,
+  for example that testing was done only in systems you are authorized to use. If
+  you have not done the work, leave it blank.
+- **AI/ML work:** use `datasets` and `evaluation` to be explicit about data and
+  how results were judged, and `limitations` for caveats.
+- **Never invent** results, metrics, publications, or credentials. Missing detail
+  is better left empty — the field simply will not render.
+
 ### Skills
 
 ```ts
@@ -310,6 +368,64 @@ export const languages: LanguageItem[] = [
   { name: bi("English", "अंग्रेजी"), level: bi("Native", "मातृभाषी") },
 ];
 ```
+
+### Research interests
+
+A short, clearly framed list of topics you are curious about. Edit
+`researchInterests` in `lib/data.ts`:
+
+```ts
+export const researchInterests = {
+  intro: bi("Topics I want to explore…", "…"),
+  note: bi(
+    "These are personal interests, not a claim of expertise.",
+    "…",
+  ),
+  interests: [
+    {
+      title: bi("Cybersecurity", "साइबर सुरक्षा"),
+      description: bi("What interests you about it."),
+      topics: ["Application Security", "Network Security"], // optional chips
+    },
+  ],
+};
+```
+
+- The `note` is shown at the top of the section. Keep it — it makes clear these
+  are interests, not professional experience or completed research.
+- Emptying `interests` hides the whole section and its nav link.
+- Use `title`, `description`, and optional `topics`; no claims of expertise.
+
+### Reading notes
+
+Short, own-words notes about papers, experiments, or technical topics. Edit
+`readingNotes` in `lib/data.ts`:
+
+```ts
+export const readingNotes = {
+  intro: bi("Short notes on what I am reading…", "…"),
+  note: bi(
+    "Summaries here are in my own words, not the source's text.",
+    "…",
+  ),
+  items: [
+    {
+      title: "Attention Is All You Need — first read",
+      date: "2025-03",
+      summary: bi("My own brief summary and takeaways."),
+      source: bi("Vaswani et al., 2017"),                 // optional
+      href: "https://arxiv.org/abs/1706.03762",           // optional
+      topics: ["Transformers", "NLP"],                    // optional
+    },
+  ],
+};
+```
+
+- Write `summary` **in your own words** — never paste the source's text. The
+  section labels your summary as "My notes" and keeps the `source` separate.
+- `source` is the citation text; `href` links to the original work. Either can be
+  omitted; if only `href` is set, a "View source" link is shown.
+- Emptying `items` hides the whole section and its nav link.
 
 ### Interface labels
 

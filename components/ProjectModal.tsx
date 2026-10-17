@@ -1,8 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { Bi, Lang, Project, ProjectBodyBlock } from "@/lib/data";
-import { ui } from "@/lib/data";
+import type {
+  Bi,
+  BiList,
+  Lang,
+  Project,
+  ProjectBodyBlock,
+  ResearchReference,
+} from "@/lib/data";
+import { researchStatusLabels, ui } from "@/lib/data";
 import { useLang, useT } from "@/components/LanguageProvider";
 import { gsap, prefersReducedMotion, useIsoLayoutEffect } from "@/lib/gsap";
 
@@ -58,6 +65,55 @@ function Detail({ label, value, lang }: { label: Bi; value?: Bi; lang: Lang }) {
   );
 }
 
+/** A labelled bullet list. Renders nothing when the list is empty. */
+function DetailList({ label, items, lang }: { label: Bi; items?: BiList; lang: Lang }) {
+  const t = useT();
+  const list = items?.[lang]?.filter((item) => item.trim());
+  if (!list || list.length === 0) return null;
+  return (
+    <div className="modal-detail">
+      <h3 className="modal-h2">{t(label)}</h3>
+      <ul className="modal-ul">
+        {list.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** A labelled list of citations. Renders nothing when empty. */
+function References({
+  label,
+  items,
+  lang,
+}: {
+  label: Bi;
+  items?: ResearchReference[];
+  lang: Lang;
+}) {
+  const t = useT();
+  if (!items || items.length === 0) return null;
+  return (
+    <div className="modal-detail">
+      <h3 className="modal-h2">{t(label)}</h3>
+      <ul className="modal-ul">
+        {items.map((ref, index) => (
+          <li key={index}>
+            {ref.href ? (
+              <a href={ref.href} target="_blank" rel="noopener noreferrer">
+                {ref.label[lang]}
+              </a>
+            ) : (
+              ref.label[lang]
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
@@ -70,11 +126,26 @@ export default function ProjectModal({
 }) {
   const lang = useLang();
   const t = useT();
+  const hasText = (...values: (Bi | undefined)[]) =>
+    values.some((value) => value?.[lang]?.trim());
+  const hasList = (...values: (BiList | undefined)[]) =>
+    values.some((value) => value?.[lang]?.some((item) => item.trim()));
   const hasDetails =
     project.tags.length > 0 ||
-    [project.problem, project.role, project.challenges, project.outcomes].some(
-      (value) => value?.[lang]?.trim(),
-    );
+    (project.references?.length ?? 0) > 0 ||
+    hasText(
+      project.problem,
+      project.question,
+      project.motivation,
+      project.role,
+      project.approach,
+      project.datasets,
+      project.evaluation,
+      project.challenges,
+      project.outcomes,
+      project.ethics,
+    ) ||
+    hasList(project.methods, project.findings, project.limitations);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -187,7 +258,14 @@ export default function ProjectModal({
       >
         <div className="modal-header">
           <div>
-            <div className="modal-date">{project.date}</div>
+            <div className="modal-meta">
+              <span className="modal-date">{project.date}</span>
+              {project.status ? (
+                <span className={`status-badge status-${project.status}`}>
+                  {t(researchStatusLabels[project.status])}
+                </span>
+              ) : null}
+            </div>
             <h2 className="modal-title">{project.name}</h2>
           </div>
           <button
@@ -217,7 +295,19 @@ export default function ProjectModal({
             {hasDetails ? (
               <div className="modal-details">
                 <Detail label={ui.problem} value={project.problem} lang={lang} />
+                <Detail
+                  label={ui.researchQuestion}
+                  value={project.question}
+                  lang={lang}
+                />
+                <Detail
+                  label={ui.motivation}
+                  value={project.motivation}
+                  lang={lang}
+                />
                 <Detail label={ui.myRole} value={project.role} lang={lang} />
+                <Detail label={ui.approach} value={project.approach} lang={lang} />
+                <DetailList label={ui.methods} items={project.methods} lang={lang} />
                 {project.tags.length > 0 ? (
                   <div className="modal-detail">
                     <h3 className="modal-h2">{t(ui.technologies)}</h3>
@@ -230,15 +320,47 @@ export default function ProjectModal({
                     </div>
                   </div>
                 ) : null}
-                <Detail label={ui.challenges} value={project.challenges} lang={lang} />
+                <Detail label={ui.datasets} value={project.datasets} lang={lang} />
+                <Detail
+                  label={ui.evaluation}
+                  value={project.evaluation}
+                  lang={lang}
+                />
+                <Detail
+                  label={ui.challenges}
+                  value={project.challenges}
+                  lang={lang}
+                />
+                <DetailList
+                  label={ui.findings}
+                  items={project.findings}
+                  lang={lang}
+                />
+                <DetailList
+                  label={ui.limitations}
+                  items={project.limitations}
+                  lang={lang}
+                />
                 <Detail label={ui.outcomes} value={project.outcomes} lang={lang} />
+                <Detail
+                  label={ui.responsiblePractice}
+                  value={project.ethics}
+                  lang={lang}
+                />
+                <References
+                  label={ui.references}
+                  items={project.references}
+                  lang={lang}
+                />
               </div>
             ) : null}
 
             {project.body.length > 0 ? <hr className="modal-hr" /> : null}
             {project.body.map((block, index) => renderBlock(block, index, lang))}
 
-            {(project.link || project.github) && (
+            {(project.link ||
+              project.github ||
+              (project.links?.length ?? 0) > 0) && (
               <div className="modal-links">
                 {project.link ? (
                   <a
@@ -260,6 +382,17 @@ export default function ProjectModal({
                     {t(ui.source)}
                   </a>
                 ) : null}
+                {project.links?.map((link) => (
+                  <a
+                    className="github-link"
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.label[lang]}
+                  </a>
+                ))}
               </div>
             )}
           </div>

@@ -10,6 +10,8 @@ export const bi = (en: string, ne: string = en): Bi => ({ en, ne });
 export type SectionId =
   | "home"
   | "projects"
+  | "research"
+  | "notes"
   | "skills"
   | "education"
   | "activities"
@@ -43,6 +45,15 @@ export type ProjectBodyBlock =
   | { type: "ol"; items: BiList }
   | { type: "hr" };
 
+/** A general-purpose labelled link on a project. */
+export type ProjectLink = { label: Bi; href: string };
+
+/** A citation for a research project. `href` is optional. */
+export type ResearchReference = { label: Bi; href?: string };
+
+/** Stage of a research or learning project. */
+export type ResearchStatus = "idea" | "in-progress" | "completed";
+
 export type Project = {
   id: string;
   name: string;
@@ -58,11 +69,61 @@ export type Project = {
   challenges?: Bi;
   /** Verifiable outcomes only. Leave undefined if you cannot state them factually. */
   outcomes?: Bi;
+
+  // --- Research / learning projects (all optional; rendered only when filled) ---
+  /** Current stage. Shown as a badge on the card and in the modal. */
+  status?: ResearchStatus;
+  /** The research question or goal. */
+  question?: Bi;
+  /** Why this is worth exploring. */
+  motivation?: Bi;
+  /** How you went (or plan to go) about it. */
+  approach?: Bi;
+  /** Methods and tools, as a short bilingual list. */
+  methods?: BiList;
+  /** Datasets used or planned. */
+  datasets?: Bi;
+  /** How results are (or will be) evaluated. */
+  evaluation?: Bi;
+  /** Findings or lessons learned. */
+  findings?: BiList;
+  /** Known limitations and caveats. */
+  limitations?: BiList;
+  /**
+   * Responsible-practice note. For security work, state that any testing was
+   * done only in authorized environments. For AI/ML, clarify data and ethics.
+   */
+  ethics?: Bi;
+  /** Citations / sources. */
+  references?: ResearchReference[];
+  /** Extra links (write-ups, demos, datasets, repositories). */
+  links?: ProjectLink[];
+
   github?: string;
   link?: string;
   thumb?: string;
   tldr: Bi;
   body: ProjectBodyBlock[];
+};
+
+/** A topic of personal interest — clearly framed as curiosity, not expertise. */
+export type ResearchInterest = {
+  title: Bi;
+  description: Bi;
+  topics?: string[];
+};
+
+/** A short note about a paper, experiment, or technical topic. */
+export type ReadingNote = {
+  title: string;
+  date: string;
+  /** Your own brief summary — never paste the source's text. */
+  summary: Bi;
+  /** The original work this note is about (author, title, venue, year). */
+  source?: Bi;
+  /** Optional link to the original work. */
+  href?: string;
+  topics?: string[];
 };
 
 export type SkillGroup = {
@@ -135,6 +196,8 @@ export const profile: Profile = {
 const allNavSections: SectionNavItem[] = [
   { id: "home", label: { en: "Home", ne: "गृहपृष्ठ" } },
   { id: "projects", label: { en: "Projects", ne: "परियोजनाहरू" } },
+  { id: "research", label: { en: "Research", ne: "अनुसन्धान" } },
+  { id: "notes", label: { en: "Notes", ne: "टिप्पणीहरू" } },
   { id: "skills", label: { en: "Skills", ne: "सीपहरू" } },
   { id: "education", label: { en: "Education", ne: "शिक्षा" } },
   { id: "activities", label: { en: "Activities", ne: "गतिविधिहरू" } },
@@ -187,10 +250,9 @@ export const bio: BiList = {
 };
 
 /**
- * Projects. Every field except `id`, `name`, `date`, `description`, `tags`,
- * `tldr`, and `body` is optional. The case-study fields (`problem`, `role`,
- * `challenges`, `outcomes`) are rendered in the detail modal only when filled in,
- * so it is safe to add them one at a time.
+ * Projects — regular and research/learning. Every field except `id`, `name`,
+ * `date`, `description`, `tags`, `tldr`, and `body` is optional. Optional fields
+ * are rendered only when filled in, so it is safe to add them one at a time.
  *
  *   {
  *     id: "my-project",
@@ -207,6 +269,23 @@ export const bio: BiList = {
  *     thumb: "/projects/my-project.png",       // optional image
  *     tldr: bi("Short intro shown in the modal."),
  *     body: [ { type: "p", content: bi("Overview.") } ],
+ *   }
+ *
+ * Research / learning projects add these (all optional):
+ *
+ *   {
+ *     status: "idea" | "in-progress" | "completed",
+ *     question: bi("What are you trying to find out?"),
+ *     motivation: bi("Why does this interest you?"),
+ *     approach: bi("How you went about it."),
+ *     methods: { en: ["Method"], ne: ["विधि"] },
+ *     datasets: bi("Datasets used or planned."),
+ *     evaluation: bi("How you evaluate results."),
+ *     findings: { en: ["Lesson learned"], ne: ["सिकाइ"] },
+ *     limitations: { en: ["Caveat"], ne: ["सीमा"] },
+ *     ethics: bi("e.g. testing done only in authorized environments."),
+ *     references: [ { label: bi("Author, Title, Year"), href: "https://…" } ],
+ *     links: [ { label: bi("Write-up"), href: "https://…" } ],
  *   }
  */
 export const projects: Project[] = [
@@ -466,6 +545,96 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+/**
+ * Research interests. These are topics of curiosity, NOT a claim of expertise,
+ * certifications, or completed research — the `note` makes that explicit and is
+ * shown at the top of the section. Empty `interests` hides the whole section.
+ */
+export const researchInterests: {
+  intro: Bi;
+  note: Bi;
+  interests: ResearchInterest[];
+} = {
+  intro: {
+    en: "Topics I am genuinely curious about and want to explore further through coursework, reading, and small hands-on experiments as I learn.",
+    ne: "म साँच्चै जिज्ञासा राख्ने र पाठ्यक्रम, पढाइ तथा साना प्रयोगमार्फत अझ अध्ययन गर्न चाहने विषयहरू।",
+  },
+  note: {
+    en: "These are personal interests, not a claim of professional expertise, certification, or completed research.",
+    ne: "यी व्यक्तिगत रुचिहरू हुन् — व्यावसायिक विशेषज्ञता, प्रमाणपत्र वा सम्पन्न अनुसन्धानको दाबी होइन।",
+  },
+  interests: [
+    {
+      title: { en: "Cybersecurity", ne: "साइबर सुरक्षा" },
+      description: {
+        en: "I want to understand how systems are attacked and defended — application security, network fundamentals, and secure development practices — building a strong ethical foundation first.",
+        ne: "सिस्टमहरू कसरी आक्रमणको सिकार र सुरक्षित गरिन्छन् — एप्लिकेसन सुरक्षा, नेटवर्क आधार र सुरक्षित विकास अभ्यास — बुझ्न चाहन्छु, पहिले बलियो नैतिक आधार बनाउँदै।",
+      },
+      topics: ["Application Security", "Network Security", "Secure Coding"],
+    },
+    {
+      title: {
+        en: "Artificial Intelligence & Machine Learning",
+        ne: "कृत्रिम बुद्धिमत्ता र मेसिन लर्निङ",
+      },
+      description: {
+        en: "I want to learn how models learn from data — the fundamentals of machine learning, deep learning, and natural language processing — and how these methods are applied and evaluated responsibly.",
+        ne: "मोडेलहरूले डेटाबाट कसरी सिक्छन् — मेसिन लर्निङ, डीप लर्निङ र प्राकृतिक भाषा प्रशोधनका आधार — र यी विधि कसरी जिम्मेवार रूपमा प्रयोग र मूल्याङ्कन गरिन्छन् भन्ने सिक्न चाहन्छु।",
+      },
+      topics: ["Machine Learning", "Deep Learning", "NLP"],
+    },
+    {
+      title: {
+        en: "Research & Evidence-Based Learning",
+        ne: "अनुसन्धान र प्रमाण-आधारित सिकाइ",
+      },
+      description: {
+        en: "I am interested in reading and understanding research, trying small reproducible experiments, and learning to evaluate claims carefully instead of taking them at face value.",
+        ne: "अनुसन्धान पढ्न र बुझ्न, साना पुनरुत्पादनयोग्य प्रयोग गर्न, र दाबीहरूलाई जस्ताको तस्तै नमानी सावधानीपूर्वक मूल्याङ्कन गर्न सिक्नमा रुचि राख्छु।",
+      },
+      topics: ["Paper Reading", "Reproducibility", "Critical Evaluation"],
+    },
+  ],
+};
+
+/** Stage labels for research / learning projects. */
+export const researchStatusLabels: Record<ResearchStatus, Bi> = {
+  idea: { en: "Idea", ne: "परिकल्पना" },
+  "in-progress": { en: "In progress", ne: "प्रगतिमा" },
+  completed: { en: "Completed", ne: "सम्पन्न" },
+};
+
+/**
+ * Short reading/experiment notes. Each `summary` must be written in your own
+ * words — never paste the source's text. Empty `items` hides the whole section.
+ *
+ *   items: [
+ *     {
+ *       title: "Attention Is All You Need — first read",
+ *       date: "2025-03",
+ *       summary: bi("What I took away, in my own words."),
+ *       source: bi("Vaswani et al., 2017"),
+ *       href: "https://arxiv.org/abs/1706.03762",
+ *       topics: ["Transformers", "NLP"],
+ *     },
+ *   ]
+ */
+export const readingNotes: {
+  intro: Bi;
+  note: Bi;
+  items: ReadingNote[];
+} = {
+  intro: {
+    en: "Brief notes on papers, experiments, and technical topics I am reading about. These are my own short summaries and takeaways.",
+    ne: "मैले पढिरहेका पेपर, प्रयोग र प्राविधिक विषयमा छोटा टिप्पणीहरू। यी मेरा आफ्नै संक्षिप्त सारांश र मुख्य बुँदाहरू हुन्।",
+  },
+  note: {
+    en: "Summaries here are written in my own words and are not the source's text. Follow the link for the original work.",
+    ne: "यहाँका सारांशहरू मेरा आफ्नै शब्दमा लेखिएका हुन्, स्रोतको पाठ होइन। मूल कामका लागि लिंक खोल्नुहोस्।",
+  },
+  items: [],
+};
 
 export const skills: SkillGroup[] = [
   {
@@ -854,6 +1023,8 @@ export const contacts: ContactItem[] = [...buildContacts(profile), ...extraConta
 export const sectionAvailability: Record<SectionId, boolean> = {
   home: true,
   projects: projects.length > 0,
+  research: researchInterests.interests.length > 0,
+  notes: readingNotes.items.length > 0,
   skills: skills.length > 0,
   education: education.length > 0,
   activities: activities.length > 0,
@@ -882,6 +1053,18 @@ export const ui = {
   technologies: { en: "Technologies used", ne: "प्रयोग गरिएका प्रविधिहरू" },
   challenges: { en: "Technical decisions", ne: "प्राविधिक निर्णयहरू" },
   outcomes: { en: "Outcomes", ne: "नतिजा" },
+  researchQuestion: { en: "Research question", ne: "अनुसन्धान प्रश्न" },
+  motivation: { en: "Motivation", ne: "प्रेरणा" },
+  approach: { en: "Approach", ne: "दृष्टिकोण" },
+  methods: { en: "Methods & tools", ne: "विधि र उपकरणहरू" },
+  datasets: { en: "Datasets", ne: "डेटासेटहरू" },
+  evaluation: { en: "Evaluation", ne: "मूल्याङ्कन" },
+  findings: { en: "Findings & lessons", ne: "निष्कर्ष र सिकाइ" },
+  limitations: { en: "Limitations", ne: "सीमाहरू" },
+  references: { en: "References", ne: "सन्दर्भहरू" },
+  responsiblePractice: { en: "Responsible practice", ne: "जिम्मेवार अभ्यास" },
+  myNotes: { en: "My notes", ne: "मेरा टिप्पणीहरू" },
+  viewSource: { en: "View source", ne: "स्रोत हेर्नुहोस्" },
   filterByTech: { en: "Filter projects by technology", ne: "प्रविधि अनुसार परियोजना फिल्टर गर्नुहोस्" },
   allProjects: { en: "All", ne: "सबै" },
   noProjects: {
