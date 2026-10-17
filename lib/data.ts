@@ -90,8 +90,9 @@ export const profile = {
   location: { en: "Nepal", ne: "नेपाल" },
   email: "hrkshnagtm@gmail.com",
   github: "https://github.com/Harikrishna-HG",
-  linkedin: "https://linkedin.com",
-  twitter: "https://twitter.com",
+  linkedin: "https://www.linkedin.com/in/harikrishna-hg/",
+  twitter: "https://x.com/hrkshnagtm",
+  website: "https://harikrishnagautam.com.np",
   resumeUrl: "/resume.pdf",
 };
 
@@ -119,12 +120,12 @@ export const homeContact: ContactItem[] = [
   },
   {
     label: { en: "LinkedIn", ne: "LinkedIn" },
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/harikrishna-hg/",
     icon: "linkedin",
   },
   {
     label: { en: "Twitter", ne: "Twitter" },
-    href: "https://twitter.com",
+    href: "https://x.com/hrkshnagtm",
     icon: "twitter",
   },
 ];
@@ -788,12 +789,12 @@ export const contacts: ContactItem[] = [
   },
   {
     label: { en: "LinkedIn", ne: "LinkedIn" },
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/harikrishna-hg/",
     icon: "linkedin",
   },
   {
     label: { en: "Twitter", ne: "Twitter" },
-    href: "https://twitter.com",
+    href: "https://x.com/hrkshnagtm",
     icon: "twitter",
   },
   {

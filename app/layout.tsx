@@ -13,6 +13,7 @@ const lato = Lato({
 const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}var l=localStorage.getItem('lang');if(l==='ne'){document.documentElement.classList.add('lang-pending')}}catch(e){}})();`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://harikrishnagautam.com.np"),
   title: "Harikrishna Gautam | Portfolio",
   description:
     "Portfolio of Harikrishna Gautam — full stack developer and software engineer building modern web applications.",
@@ -29,6 +30,15 @@ export const metadata: Metadata = {
     description:
       "Portfolio of Harikrishna Gautam — full stack developer and software engineer.",
     type: "website",
+    url: "https://harikrishnagautam.com.np",
+    siteName: "Harikrishna Gautam Portfolio",
+  },
+  twitter: {
+    card: "summary",
+    title: "Harikrishna Gautam | Portfolio",
+    description:
+      "Portfolio of Harikrishna Gautam — full stack developer and software engineer.",
+    creator: "@hrkshnagtm",
   },
 };
 
