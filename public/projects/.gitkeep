@@ -1,0 +1,9 @@
+# Project thumbnails
+
+Put project images here and reference them with the `thumb` field in
+`lib/data.ts`, e.g.:
+
+    thumb: "/projects/my-project.png"
+
+Recommended: 16:9 aspect ratio (e.g. 1600×900), compressed. This file can be
+deleted once you add real images.

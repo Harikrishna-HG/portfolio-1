@@ -38,7 +38,7 @@ export default function Section({
 
   return (
     <section id={id} ref={ref} className={`section${wide ? " section-wide" : ""}`}>
-      {label ? <div className="section-label">{t(label)}</div> : null}
+      {label ? <h2 className="section-label">{t(label)}</h2> : null}
       {children}
     </section>
   );

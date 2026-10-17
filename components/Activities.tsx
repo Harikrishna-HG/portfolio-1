@@ -108,6 +108,8 @@ export default function Activities() {
     };
   }, [lightbox, closeLightbox]);
 
+  if (activities.length === 0) return null;
+
   return (
     <Section id="activities" label={label}>
       <div ref={rootRef}>

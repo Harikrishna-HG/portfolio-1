@@ -43,9 +43,20 @@ function ProjectCard({
 
   return (
     <article className="project-card" ref={cardRef}>
-      <div className="project-thumb-placeholder">
-        <span>{project.name}</span>
-      </div>
+      {project.thumb ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className="project-thumb"
+          src={project.thumb}
+          alt={`${project.name} preview`}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <div className="project-thumb-placeholder" aria-hidden="true">
+          <span>{project.name}</span>
+        </div>
+      )}
       <div className="project-body">
         <div className="project-date-col">{project.date}</div>
         <div className="project-name">
@@ -92,6 +103,8 @@ export default function Projects() {
   const [selected, setSelected] = useState<Project | null>(null);
   const [expanded, setExpanded] = useState(false);
   const t = useT();
+
+  if (projects.length === 0) return null;
 
   const visible = expanded ? projects : projects.slice(0, INITIAL_COUNT);
   const hasMore = projects.length > INITIAL_COUNT;

@@ -35,6 +35,8 @@ export default function Skills() {
     return () => ctx.revert();
   }, []);
 
+  if (skills.length === 0) return null;
+
   return (
     <Section id="skills" label={skillsLabel}>
       <div ref={rootRef}>

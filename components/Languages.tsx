@@ -27,6 +27,8 @@ export default function Languages() {
     return () => ctx.revert();
   }, []);
 
+  if (languages.length === 0) return null;
+
   return (
     <Section id="languages" label={label}>
       <div className="lang-list" ref={rootRef}>

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { navSections, profile, ui } from "@/lib/data";
-import { MoonIcon, SunIcon } from "@/components/Icons";
+import { MoonIcon, SunIcon, MenuIcon, CloseIcon } from "@/components/Icons";
 import { setLang, useLang, useT } from "@/components/LanguageProvider";
 import {
   gsap,
@@ -14,6 +14,7 @@ import {
 
 export default function Sidebar() {
   const [active, setActive] = useState<string>(navSections[0]?.id ?? "home");
+  const [menuOpen, setMenuOpen] = useState(false);
   const lang = useLang();
   const t = useT();
   const rootRef = useRef<HTMLElement>(null);
@@ -44,6 +45,22 @@ export default function Sidebar() {
       window.removeEventListener("resize", updateActive);
     };
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    const onResize = () => {
+      if (!window.matchMedia("(max-width: 768px)").matches) setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [menuOpen]);
 
   useIsoLayoutEffect(() => {
     if (prefersReducedMotion() || !rootRef.current) return;
@@ -106,6 +123,7 @@ export default function Sidebar() {
     const target = document.querySelector(href);
     if (!target) return;
     event.preventDefault();
+    setMenuOpen(false);
     const offset = isMobile() ? MOBILE_TOPBAR_OFFSET : 0;
     gsap.to(window, {
       duration: prefersReducedMotion() ? 0 : 0.9,
@@ -128,7 +146,11 @@ export default function Sidebar() {
         <p className="sidebar-title">{t(profile.title)}</p>
       </div>
 
-      <nav className="sidebar-nav" aria-label={t(ui.sections)}>
+      <nav
+        id="primary-nav"
+        className={`sidebar-nav${menuOpen ? " open" : ""}`}
+        aria-label={t(ui.sections)}
+      >
         <div className="nav-section-label">{t(ui.sections)}</div>
         {navSections.map((section) => (
           <a
@@ -144,6 +166,16 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-controls">
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="primary-nav"
+          aria-label={t(ui.menu)}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? <CloseIcon /> : <MenuIcon />}
+        </button>
         <div
           className="lang-toggle"
           role="group"

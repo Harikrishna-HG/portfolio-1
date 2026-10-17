@@ -50,6 +50,8 @@ export default function Education() {
     return () => ctx.revert();
   }, []);
 
+  if (education.length === 0) return null;
+
   return (
     <Section id="education" label={label}>
       <div ref={rootRef}>

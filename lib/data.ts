@@ -4,9 +4,36 @@ export type Bi = Record<Lang, string>;
 
 export type BiList = Record<Lang, string[]>;
 
+/** Shorthand for bilingual values: `bi("Projects", "परियojana")`. */
+export const bi = (en: string, ne: string = en): Bi => ({ en, ne });
+
+export type SectionId =
+  | "home"
+  | "projects"
+  | "skills"
+  | "education"
+  | "activities"
+  | "certifications"
+  | "languages"
+  | "contact";
+
 export type SectionNavItem = {
-  id: string;
+  id: SectionId;
   label: Bi;
+};
+
+export type Profile = {
+  name: string;
+  initials: string;
+  title: Bi;
+  subtitle: Bi;
+  location?: Bi;
+  email?: string;
+  github?: string;
+  linkedin?: string;
+  twitter?: string;
+  website?: string;
+  resumeUrl?: string;
 };
 
 export type ProjectBodyBlock =
@@ -76,7 +103,7 @@ export type ContactItem = {
   icon: "mail" | "github" | "linkedin" | "twitter" | "globe" | "resume";
 };
 
-export const profile = {
+export const profile: Profile = {
   name: "Harikrishna Gautam",
   initials: "HG",
   title: {
@@ -96,7 +123,7 @@ export const profile = {
   resumeUrl: "/resume.pdf",
 };
 
-export const navSections: SectionNavItem[] = [
+const allNavSections: SectionNavItem[] = [
   { id: "home", label: { en: "Home", ne: "गृहपृष्ठ" } },
   { id: "projects", label: { en: "Projects", ne: "परियोजनाहरू" } },
   { id: "skills", label: { en: "Skills", ne: "सीपहरू" } },
@@ -107,28 +134,37 @@ export const navSections: SectionNavItem[] = [
   { id: "contact", label: { en: "Contact", ne: "सम्पर्क" } },
 ];
 
-export const homeContact: ContactItem[] = [
-  {
-    label: { en: "Email", ne: "इमेल" },
-    href: "mailto:hrkshnagtm@gmail.com",
-    icon: "mail",
-  },
-  {
-    label: { en: "GitHub", ne: "GitHub" },
-    href: "https://github.com/Harikrishna-HG",
-    icon: "github",
-  },
-  {
-    label: { en: "LinkedIn", ne: "LinkedIn" },
-    href: "https://www.linkedin.com/in/harikrishna-hg/",
-    icon: "linkedin",
-  },
-  {
-    label: { en: "Twitter", ne: "Twitter" },
-    href: "https://x.com/hrkshnagtm",
-    icon: "twitter",
-  },
-];
+function buildHomeContacts(p: Profile): ContactItem[] {
+  const items: ContactItem[] = [];
+  if (p.email) {
+    items.push({ label: { en: "Email", ne: "इमेल" }, href: `mailto:${p.email}`, icon: "mail" });
+  }
+  if (p.github) items.push({ label: bi("GitHub"), href: p.github, icon: "github" });
+  if (p.linkedin) items.push({ label: bi("LinkedIn"), href: p.linkedin, icon: "linkedin" });
+  if (p.twitter) items.push({ label: bi("Twitter"), href: p.twitter, icon: "twitter" });
+  if (p.website) items.push({ label: { en: "Website", ne: "वेबसाइट" }, href: p.website, icon: "globe" });
+  return items;
+}
+
+function buildContacts(p: Profile): ContactItem[] {
+  const items: ContactItem[] = [];
+  if (p.email) {
+    items.push({ label: bi(p.email), href: `mailto:${p.email}`, icon: "mail" });
+  }
+  if (p.github) items.push({ label: bi("GitHub"), href: p.github, icon: "github" });
+  if (p.linkedin) items.push({ label: bi("LinkedIn"), href: p.linkedin, icon: "linkedin" });
+  if (p.twitter) items.push({ label: bi("Twitter"), href: p.twitter, icon: "twitter" });
+  if (p.website) items.push({ label: { en: "Website", ne: "वेबसाइट" }, href: p.website, icon: "globe" });
+  if (p.resumeUrl) {
+    items.push({ label: { en: "Resume", ne: "रिजुमे" }, href: p.resumeUrl, icon: "resume" });
+  }
+  return items;
+}
+
+/** Extra contact methods that are not part of `profile` (e.g. a phone number). */
+export const extraContacts: ContactItem[] = [];
+
+export const homeContact: ContactItem[] = buildHomeContacts(profile);
 
 export const bio: BiList = {
   en: [
@@ -776,36 +812,31 @@ export const languages: LanguageItem[] = [
   { name: { en: "Hindi", ne: "हिन्दी" }, level: { en: "Conversational", ne: "कुराकानी स्तर" } },
 ];
 
-export const contacts: ContactItem[] = [
-  {
-    label: { en: "hrkshnagtm@gmail.com", ne: "hrkshnagtm@gmail.com" },
-    href: "mailto:hrkshnagtm@gmail.com",
-    icon: "mail",
-  },
-  {
-    label: { en: "GitHub", ne: "GitHub" },
-    href: "https://github.com/Harikrishna-HG",
-    icon: "github",
-  },
-  {
-    label: { en: "LinkedIn", ne: "LinkedIn" },
-    href: "https://www.linkedin.com/in/harikrishna-hg/",
-    icon: "linkedin",
-  },
-  {
-    label: { en: "Twitter", ne: "Twitter" },
-    href: "https://x.com/hrkshnagtm",
-    icon: "twitter",
-  },
-  {
-    label: { en: "Resume", ne: "रिजुमे" },
-    href: "/resume.pdf",
-    icon: "resume",
-  },
-];
+export const contacts: ContactItem[] = [...buildContacts(profile), ...extraContacts];
+
+/**
+ * Which sections have content. Empty sections are hidden from the page and the
+ * navigation automatically, so removing all entries of a section simply removes
+ * it from the site without leaving empty headings or broken links.
+ */
+export const sectionAvailability: Record<SectionId, boolean> = {
+  home: true,
+  projects: projects.length > 0,
+  skills: skills.length > 0,
+  education: education.length > 0,
+  activities: activities.length > 0,
+  certifications: certifications.length > 0,
+  languages: languages.length > 0,
+  contact: contacts.length > 0,
+};
+
+export const navSections: SectionNavItem[] = allNavSections.filter(
+  (section) => sectionAvailability[section.id],
+);
 
 export const ui = {
   sections: { en: "Sections", ne: "खण्डहरू" },
+  menu: { en: "Menu", ne: "मेनु" },
   darkMode: { en: "Dark mode", ne: "डार्क मोड" },
   lightMode: { en: "Light mode", ne: "लाइट मोड" },
   toggleDark: { en: "Toggle dark mode", ne: "डार्क मोड बदल्नुहोस्" },

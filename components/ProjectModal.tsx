@@ -184,6 +184,15 @@ export default function ProjectModal({
         </div>
 
         <div className="modal-body">
+          {project.thumb ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              className="modal-thumb"
+              src={project.thumb}
+              alt={`${project.name} preview`}
+              decoding="async"
+            />
+          ) : null}
           <div className="modal-tags">
             {project.tags.map((tag) => (
               <span className="tag" key={tag}>

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Section from "@/components/Section";
 import { ContactIcon } from "@/components/Icons";
-import { contacts, navSections, ui } from "@/lib/data";
+import { contacts, navSections, profile, ui } from "@/lib/data";
 import { useT } from "@/components/LanguageProvider";
 import { gsap, prefersReducedMotion, useIsoLayoutEffect } from "@/lib/gsap";
 
@@ -35,22 +35,26 @@ export default function Contact() {
     return () => ctx.revert();
   }, []);
 
+  if (contacts.length === 0 && !profile.resumeUrl) return null;
+
   return (
     <Section id="contact" label={label}>
       <div ref={rootRef}>
-        <div className="section-top-row">
-          <div className="cv-download-row">
-            <a
-              className="cv-btn"
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ContactIcon name="resume" />
-              {t(ui.downloadCv)}
-            </a>
+        {profile.resumeUrl ? (
+          <div className="section-top-row">
+            <div className="cv-download-row">
+              <a
+                className="cv-btn"
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ContactIcon name="resume" />
+                {t(ui.downloadCv)}
+              </a>
+            </div>
           </div>
-        </div>
+        ) : null}
 
         <div className="contact-row">
           {contacts.map((contact) => {

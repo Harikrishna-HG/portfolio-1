@@ -72,9 +72,55 @@ button {
   font-family: inherit;
 }
 
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
 ::selection {
   background: var(--text-primary);
   color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Skip link — visible only when focused via keyboard */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 200;
+  padding: 8px 14px;
+  color: var(--bg);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--text-primary);
+  border: 1px solid var(--text-primary);
+  transform: translateY(-200%);
+  transition: transform 0.15s;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ============================================================
@@ -235,6 +281,24 @@ button {
   display: inline-flex;
 }
 
+.menu-toggle {
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.menu-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
 .lang-toggle {
   display: flex;
   align-items: stretch;
@@ -310,10 +374,11 @@ button {
 }
 
 .section-label {
-  margin-bottom: 20px;
+  margin: 0 0 20px;
   color: var(--text-muted);
   font-size: 10px;
   font-weight: 700;
+  line-height: 1.4;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -385,6 +450,7 @@ button {
 }
 
 .bio-text p {
+  max-width: 70ch;
   margin-bottom: 16px;
 }
 
@@ -410,7 +476,7 @@ button {
 }
 
 .section-top-row .section-label {
-  margin-bottom: 0;
+  margin: 0;
 }
 
 /* ============================================================
@@ -468,11 +534,12 @@ button {
   background: var(--bg);
   border: 1px solid var(--border);
   cursor: default;
-  transition: background 0.15s;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .project-card:hover {
   background: var(--bg-secondary);
+  border-color: var(--text-muted);
 }
 
 .project-thumb {
@@ -1099,6 +1166,15 @@ button {
   overflow-y: auto;
 }
 
+.modal-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
 .modal-tags {
   display: flex;
   flex-wrap: wrap;
@@ -1210,6 +1286,12 @@ button {
   .sidebar-brand {
     display: flex;
     align-items: center;
+    min-width: 0;
+  }
+
+  .sidebar-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .sidebar-header {
@@ -1229,7 +1311,30 @@ button {
     display: none;
   }
 
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .sidebar-nav.open {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 14px 20px 18px;
+    background: var(--bg-sidebar);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-nav.open .nav-link {
+    padding: 8px 0;
+  }
+
   .sidebar-controls {
+    flex-shrink: 0;
     flex-direction: row;
     gap: 6px;
     margin-top: 0;

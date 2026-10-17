@@ -24,6 +24,8 @@ export default function Certifications() {
     return () => ctx.revert();
   }, []);
 
+  if (certifications.length === 0) return null;
+
   return (
     <Section id="certifications" label={label}>
       <div ref={rootRef}>
