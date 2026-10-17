@@ -1,12 +1,17 @@
+"use client";
+
 import Section from "@/components/Section";
 import { ContactIcon } from "@/components/Icons";
-import { contacts } from "@/lib/data";
+import { contacts, navSections, ui } from "@/lib/data";
+import { useT } from "@/components/LanguageProvider";
 
 export default function Contact() {
+  const t = useT();
+  const label = navSections.find((s) => s.id === "contact")?.label ?? ui.sections;
+
   return (
-    <Section id="contact">
+    <Section id="contact" label={label}>
       <div className="section-top-row">
-        <div className="section-label">Contact</div>
         <div className="cv-download-row">
           <a
             className="cv-btn"
@@ -15,7 +20,7 @@ export default function Contact() {
             rel="noopener noreferrer"
           >
             <ContactIcon name="resume" />
-            Download CV
+            {t(ui.downloadCv)}
           </a>
         </div>
       </div>
@@ -25,14 +30,14 @@ export default function Contact() {
           const external = contact.href.startsWith("http");
           return (
             <a
-              key={contact.label}
+              key={contact.label.en}
               className="contact-icon-btn"
               href={contact.href}
               target={external ? "_blank" : undefined}
               rel={external ? "noopener noreferrer" : undefined}
             >
               <ContactIcon name={contact.icon} />
-              {contact.label}
+              {t(contact.label)}
             </a>
           );
         })}

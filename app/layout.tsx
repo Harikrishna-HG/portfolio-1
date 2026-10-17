@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Lato } from "next/font/google";
+import { LanguageInit } from "@/components/LanguageProvider";
 import "./globals.css";
 
 const lato = Lato({
@@ -9,7 +10,7 @@ const lato = Lato({
   display: "swap",
 });
 
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}var l=localStorage.getItem('lang');if(l==='ne'){document.documentElement.classList.add('lang-pending')}}catch(e){}})();`;
 
 export const metadata: Metadata = {
   title: "Harikrishna Gautam | Portfolio",
@@ -46,7 +47,10 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <LanguageInit />
+        {children}
+      </body>
     </html>
   );
 }

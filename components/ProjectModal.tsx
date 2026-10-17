@@ -2,13 +2,15 @@
 
 import { useEffect } from "react";
 import type { Project, ProjectBodyBlock } from "@/lib/data";
+import { ui } from "@/lib/data";
+import { useLang, useT } from "@/components/LanguageProvider";
 
-function renderBlock(block: ProjectBodyBlock, index: number) {
+function renderBlock(block: ProjectBodyBlock, index: number, lang: "en" | "ne") {
   switch (block.type) {
     case "h2":
       return (
         <h3 className="modal-h2" key={index}>
-          {block.content}
+          {block.content[lang]}
         </h3>
       );
     case "p":
@@ -16,13 +18,13 @@ function renderBlock(block: ProjectBodyBlock, index: number) {
         <p
           className="modal-p"
           key={index}
-          dangerouslySetInnerHTML={{ __html: block.content }}
+          dangerouslySetInnerHTML={{ __html: block.content[lang] }}
         />
       );
     case "ul":
       return (
         <ul className="modal-ul" key={index}>
-          {block.items.map((item, itemIndex) => (
+          {block.items[lang].map((item, itemIndex) => (
             <li key={itemIndex}>{item}</li>
           ))}
         </ul>
@@ -30,7 +32,7 @@ function renderBlock(block: ProjectBodyBlock, index: number) {
     case "ol":
       return (
         <ol className="modal-ol" key={index}>
-          {block.items.map((item, itemIndex) => (
+          {block.items[lang].map((item, itemIndex) => (
             <li key={itemIndex}>{item}</li>
           ))}
         </ol>
@@ -49,6 +51,9 @@ export default function ProjectModal({
   project: Project;
   onClose: () => void;
 }) {
+  const lang = useLang();
+  const t = useT();
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -80,7 +85,7 @@ export default function ProjectModal({
             type="button"
             className="modal-close"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t(ui.close)}
           >
             ✕
           </button>
@@ -96,9 +101,9 @@ export default function ProjectModal({
           </div>
 
           <div className="modal-content">
-            <p className="modal-tldr">{project.tldr}</p>
+            <p className="modal-tldr">{project.tldr[lang]}</p>
             <hr className="modal-hr" />
-            {project.body.map((block, index) => renderBlock(block, index))}
+            {project.body.map((block, index) => renderBlock(block, index, lang))}
 
             {(project.link || project.github) && (
               <div className="modal-links">
@@ -109,7 +114,7 @@ export default function ProjectModal({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Live site
+                    {t(ui.liveSite)}
                   </a>
                 ) : null}
                 {project.github ? (
@@ -119,7 +124,7 @@ export default function ProjectModal({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Source
+                    {t(ui.source)}
                   </a>
                 ) : null}
               </div>

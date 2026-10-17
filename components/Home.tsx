@@ -1,8 +1,14 @@
+"use client";
+
 import Section from "@/components/Section";
 import { ContactIcon } from "@/components/Icons";
 import { bio, homeContact, profile } from "@/lib/data";
+import { useLang, useT } from "@/components/LanguageProvider";
 
 export default function Home() {
+  const lang = useLang();
+  const t = useT();
+
   return (
     <Section id="home">
       <div className="home-header">
@@ -16,20 +22,20 @@ export default function Home() {
         />
         <div>
           <h1 className="home-name">{profile.name}</h1>
-          <p className="home-subtitle">{profile.subtitle}</p>
+          <p className="home-subtitle">{t(profile.subtitle)}</p>
           <div className="home-contact-inline">
             {homeContact.map((contact) => {
               const external = contact.href.startsWith("http");
               return (
                 <a
-                  key={contact.label}
+                  key={contact.label.en}
                   className="home-contact-link"
                   href={contact.href}
                   target={external ? "_blank" : undefined}
                   rel={external ? "noopener noreferrer" : undefined}
                 >
                   <ContactIcon name={contact.icon} />
-                  {contact.label}
+                  {t(contact.label)}
                 </a>
               );
             })}
@@ -38,7 +44,7 @@ export default function Home() {
       </div>
 
       <div className="bio-text">
-        {bio.map((paragraph, index) => (
+        {bio[lang].map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ))}
       </div>

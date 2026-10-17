@@ -8,8 +8,9 @@ and a side-panel modal for project details.
 
 - **Sidebar layout** with section navigation and active-section highlighting
 - **Dark / light theme** toggle persisted in `localStorage` (no flash on load)
-- **CV-style sections**: Home, Projects, Skills, Education, Certifications, Languages, Contact
+- **CV-style sections**: Home, Projects, Skills, Education, Activities, Certifications, Languages, Contact
 - **Project detail modal** with tags, summary, and body content
+- **Activity photos with lightbox** — click a photo to expand it (add photos to any activity in `lib/data.ts`)
 - **Fully responsive** — the sidebar collapses into a top bar on mobile
 - **Zero-JS-dependency styling** — plain CSS with design tokens (CSS variables)
 
@@ -49,6 +50,7 @@ portfolio-1/
 │   ├── layout.tsx      # Metadata, fonts, theme bootstrap script
 │   └── page.tsx        # Assembles the sections + sidebar
 ├── components/
+│   ├── Activities.tsx
 │   ├── Certifications.tsx
 │   ├── Contact.tsx
 │   ├── Education.tsx
@@ -74,8 +76,17 @@ portfolio-1/
 ## Customizing
 
 Almost all content is centralized in [`lib/data.ts`](lib/data.ts) — edit the
-`profile`, `bio`, `projects`, `skills`, `education`, `certifications`,
-`languages`, and `contacts` exports.
+`profile`, `bio`, `projects`, `skills`, `education`, `activities`,
+`certifications`, `languages`, and `contacts` exports.
+
+Skill keywords are rendered as colored chips using the `skillColors` map in
+`lib/data.ts` (keyword → `{ bg, text, darkBg, darkText }`). Keywords without a
+matching entry fall back to a plain bordered tag.
+
+To show photos in the **Activities** section, add files under `public/` and set
+the `photos` array on an activity, e.g.
+`photos: [{ src: "/activities/workshop.jpg", caption: "Workshop" }]`. Clicking a
+photo opens it in a lightbox.
 
 - **Colors / theme**: the `:root` and `.dark` blocks in `app/globals.css`.
 - **Avatar**: replace `public/profile.svg` with your own image.

@@ -1,9 +1,11 @@
 import Section from "@/components/Section";
-import { certifications } from "@/lib/data";
+import { certifications, navSections, ui } from "@/lib/data";
 
 export default function Certifications() {
+  const label = navSections.find((s) => s.id === "certifications")?.label ?? ui.sections;
+
   return (
-    <Section id="certifications" label="Certifications">
+    <Section id="certifications" label={label}>
       <div>
         {certifications.map((item) => (
           <div className="award-item" key={item.title}>

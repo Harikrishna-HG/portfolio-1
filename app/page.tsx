@@ -3,6 +3,7 @@ import Home from "@/components/Home";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
 import Education from "@/components/Education";
+import Activities from "@/components/Activities";
 import Certifications from "@/components/Certifications";
 import Languages from "@/components/Languages";
 import Contact from "@/components/Contact";
@@ -16,6 +17,7 @@ export default function Page() {
         <Projects />
         <Skills />
         <Education />
+        <Activities />
         <Certifications />
         <Languages />
         <Contact />

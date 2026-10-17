@@ -3,19 +3,24 @@
 import { useState } from "react";
 import Section from "@/components/Section";
 import ProjectModal from "@/components/ProjectModal";
-import { projects, type Project } from "@/lib/data";
+import { navSections, projects, type Project, ui } from "@/lib/data";
+import { useLang, useT } from "@/components/LanguageProvider";
 
 const INITIAL_COUNT = 4;
 
 export default function Projects() {
   const [selected, setSelected] = useState<Project | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const lang = useLang();
+  const t = useT();
 
   const visible = expanded ? projects : projects.slice(0, INITIAL_COUNT);
   const hasMore = projects.length > INITIAL_COUNT;
 
+  const projectsLabel = navSections.find((s) => s.id === "projects")?.label ?? ui.sections;
+
   return (
-    <Section id="projects" label="Projects" wide>
+    <Section id="projects" label={projectsLabel} wide>
       <div className="projects-grid">
         {visible.map((project) => (
           <article className="project-card" key={project.id}>
@@ -29,7 +34,7 @@ export default function Projects() {
                   {project.name}
                 </button>
               </div>
-              <p className="project-desc">{project.description}</p>
+              <p className="project-desc">{project.description[lang]}</p>
               <div className="project-footer">
                 <div className="project-tags">
                   {project.tags.map((tag) => (
@@ -45,7 +50,7 @@ export default function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`${project.name} source on GitHub`}
+                      aria-label={`${project.name} ${t(ui.source)}`}
                     >
                       GH
                     </a>
@@ -55,7 +60,7 @@ export default function Projects() {
                     className="github-link"
                     onClick={() => setSelected(project)}
                   >
-                    Details
+                    {t(ui.details)}
                   </button>
                 </div>
               </div>
@@ -70,7 +75,9 @@ export default function Projects() {
           className="show-more-btn"
           onClick={() => setExpanded((value) => !value)}
         >
-          {expanded ? "Show less" : `Show more (${projects.length - INITIAL_COUNT})`}
+          {expanded
+            ? t(ui.showLess)
+            : `${t(ui.showMore)} (${projects.length - INITIAL_COUNT})`}
         </button>
       ) : null}
 

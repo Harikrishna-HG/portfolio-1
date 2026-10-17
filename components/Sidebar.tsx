@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { navSections, profile } from "@/lib/data";
+import { navSections, profile, ui } from "@/lib/data";
 import { MoonIcon, SunIcon } from "@/components/Icons";
+import { setLang, useLang, useT } from "@/components/LanguageProvider";
 
 export default function Sidebar() {
   const [active, setActive] = useState<string>(navSections[0]?.id ?? "home");
+  const lang = useLang();
+  const t = useT();
 
   useEffect(() => {
     const sectionIds = navSections.map((s) => s.id);
@@ -50,11 +53,11 @@ export default function Sidebar() {
             {profile.name}
           </a>
         </div>
-        <p className="sidebar-title">{profile.title}</p>
+        <p className="sidebar-title">{t(profile.title)}</p>
       </div>
 
-      <nav className="sidebar-nav" aria-label="Sections">
-        <div className="nav-section-label">Sections</div>
+      <nav className="sidebar-nav" aria-label={t(ui.sections)}>
+        <div className="nav-section-label">{t(ui.sections)}</div>
         {navSections.map((section) => (
           <a
             key={section.id}
@@ -62,25 +65,48 @@ export default function Sidebar() {
             className={`nav-link${active === section.id ? " active" : ""}`}
             aria-current={active === section.id ? "true" : undefined}
           >
-            {section.label}
+            {t(section.label)}
           </a>
         ))}
       </nav>
 
       <div className="sidebar-controls">
+        <div
+          className="lang-toggle"
+          role="group"
+          aria-label="Language / भाषा"
+        >
+          <button
+            type="button"
+            className={`lang-toggle-btn${lang === "en" ? " active" : ""}`}
+            onClick={() => setLang("en")}
+            aria-pressed={lang === "en"}
+          >
+            EN
+          </button>
+          <span className="lang-toggle-sep" aria-hidden />
+          <button
+            type="button"
+            className={`lang-toggle-btn${lang === "ne" ? " active" : ""}`}
+            onClick={() => setLang("ne")}
+            aria-pressed={lang === "ne"}
+          >
+            NE
+          </button>
+        </div>
         <button
           type="button"
           className="toggle-btn"
           onClick={toggleTheme}
-          aria-label="Toggle dark mode"
+          aria-label={t(ui.toggleDark)}
         >
           <span className="theme-when-light">
             <MoonIcon />
-            Dark mode
+            {t(ui.darkMode)}
           </span>
           <span className="theme-when-dark">
             <SunIcon />
-            Light mode
+            {t(ui.lightMode)}
           </span>
         </button>
       </div>
