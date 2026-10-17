@@ -9,6 +9,23 @@ import { gsap, prefersReducedMotion, useIsoLayoutEffect } from "@/lib/gsap";
 
 const INITIAL_COUNT = 4;
 
+/**
+ * Filter options, derived from the tags that actually appear on projects and
+ * ordered by how often they are used (then alphabetically). Nothing is
+ * hard-coded, so the filters always reflect the current project data.
+ */
+const FILTER_TAGS: string[] = (() => {
+  const counts = new Map<string, number>();
+  for (const project of projects) {
+    for (const tag of project.tags) {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    }
+  }
+  return Array.from(counts.entries())
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([tag]) => tag);
+})();
+
 function ProjectCard({
   project,
   index,
@@ -102,27 +119,68 @@ function ProjectCard({
 export default function Projects() {
   const [selected, setSelected] = useState<Project | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
   const t = useT();
 
   if (projects.length === 0) return null;
 
-  const visible = expanded ? projects : projects.slice(0, INITIAL_COUNT);
-  const hasMore = projects.length > INITIAL_COUNT;
+  const matches = activeTag
+    ? projects.filter((project) => project.tags.includes(activeTag))
+    : projects;
+  const visible = activeTag || expanded ? matches : matches.slice(0, INITIAL_COUNT);
+  const hasMore = !activeTag && projects.length > INITIAL_COUNT;
+  const showFilters = FILTER_TAGS.length > 1;
 
   const projectsLabel = navSections.find((s) => s.id === "projects")?.label ?? ui.sections;
 
   return (
     <Section id="projects" label={projectsLabel} wide>
-      <div className="projects-grid">
-        {visible.map((project, index) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            index={index}
-            onSelect={setSelected}
-          />
-        ))}
-      </div>
+      {showFilters ? (
+        <div
+          className="project-filters"
+          role="group"
+          aria-label={t(ui.filterByTech)}
+        >
+          <button
+            type="button"
+            className="filter-chip"
+            aria-pressed={activeTag === null}
+            onClick={() => setActiveTag(null)}
+          >
+            {t(ui.allProjects)}
+          </button>
+          {FILTER_TAGS.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              className="filter-chip"
+              aria-pressed={activeTag === tag}
+              onClick={() => setActiveTag((current) => (current === tag ? null : tag))}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+      <p className="project-count" aria-live="polite">
+        {matches.length} {t(projectsLabel)}
+      </p>
+
+      {matches.length === 0 ? (
+        <p className="projects-empty">{t(ui.noProjects)}</p>
+      ) : (
+        <div className="projects-grid">
+          {visible.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              onSelect={setSelected}
+            />
+          ))}
+        </div>
+      )}
 
       {hasMore ? (
         <button

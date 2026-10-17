@@ -48,7 +48,16 @@ export type Project = {
   name: string;
   date: string;
   description: Bi;
+  /** Technologies used. Also drives the project filters and the modal chips. */
   tags: string[];
+  /** The problem or need the project addresses. Optional. */
+  problem?: Bi;
+  /** Your role and contributions on the project. Optional. */
+  role?: Bi;
+  /** Important technical decisions or challenges. Optional. */
+  challenges?: Bi;
+  /** Verifiable outcomes only. Leave undefined if you cannot state them factually. */
+  outcomes?: Bi;
   github?: string;
   link?: string;
   thumb?: string;
@@ -177,6 +186,29 @@ export const bio: BiList = {
   ],
 };
 
+/**
+ * Projects. Every field except `id`, `name`, `date`, `description`, `tags`,
+ * `tldr`, and `body` is optional. The case-study fields (`problem`, `role`,
+ * `challenges`, `outcomes`) are rendered in the detail modal only when filled in,
+ * so it is safe to add them one at a time.
+ *
+ *   {
+ *     id: "my-project",
+ *     name: "My Project",
+ *     date: "2025",
+ *     description: bi("One-line summary.", "एक-लाइन सारांश।"),
+ *     tags: ["Next.js", "TypeScript"],        // technologies (drives filters)
+ *     problem: bi("The need this addresses."), // optional
+ *     role: bi("What I designed and built."),  // optional
+ *     challenges: bi("Key decisions I made."), // optional
+ *     outcomes: bi("Only verifiable results."),// optional
+ *     link: "https://demo.example.com",        // optional live site
+ *     github: "https://github.com/you/repo",   // optional source
+ *     thumb: "/projects/my-project.png",       // optional image
+ *     tldr: bi("Short intro shown in the modal."),
+ *     body: [ { type: "p", content: bi("Overview.") } ],
+ *   }
+ */
 export const projects: Project[] = [
   {
     id: "yatayat",
@@ -845,6 +877,17 @@ export const ui = {
   showLess: { en: "Show less", ne: "कम हेर्नुहोस्" },
   liveSite: { en: "Live site", ne: "लाइभ साइट" },
   source: { en: "Source", ne: "स्रोत" },
+  problem: { en: "The problem", ne: "समस्या" },
+  myRole: { en: "My role", ne: "मेरो भूमिका" },
+  technologies: { en: "Technologies used", ne: "प्रयोग गरिएका प्रविधिहरू" },
+  challenges: { en: "Technical decisions", ne: "प्राविधिक निर्णयहरू" },
+  outcomes: { en: "Outcomes", ne: "नतिजा" },
+  filterByTech: { en: "Filter projects by technology", ne: "प्रविधि अनुसार परियोजना फिल्टर गर्नुहोस्" },
+  allProjects: { en: "All", ne: "सबै" },
+  noProjects: {
+    en: "No projects match this filter.",
+    ne: "यो फिल्टरसँग मेल खाने परियोजना भेटिएन।",
+  },
   relevantCoursework: { en: "Relevant coursework", ne: "सम्बन्धित पाठ्यक्रम" },
   downloadCv: { en: "Download CV", ne: "CV डाउनलोड गर्नुहोस्" },
   close: { en: "Close", ne: "बन्द गर्नुहोस्" },

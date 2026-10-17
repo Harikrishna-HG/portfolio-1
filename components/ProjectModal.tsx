@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { Project, ProjectBodyBlock } from "@/lib/data";
+import type { Bi, Lang, Project, ProjectBodyBlock } from "@/lib/data";
 import { ui } from "@/lib/data";
 import { useLang, useT } from "@/components/LanguageProvider";
 import { gsap, prefersReducedMotion, useIsoLayoutEffect } from "@/lib/gsap";
 
-function renderBlock(block: ProjectBodyBlock, index: number, lang: "en" | "ne") {
+function renderBlock(block: ProjectBodyBlock, index: number, lang: Lang) {
   switch (block.type) {
     case "h2":
       return (
@@ -45,6 +45,19 @@ function renderBlock(block: ProjectBodyBlock, index: number, lang: "en" | "ne") 
   }
 }
 
+/** A labelled case-study paragraph. Renders nothing when the field is empty. */
+function Detail({ label, value, lang }: { label: Bi; value?: Bi; lang: Lang }) {
+  const t = useT();
+  const text = value?.[lang]?.trim();
+  if (!text) return null;
+  return (
+    <div className="modal-detail">
+      <h3 className="modal-h2">{t(label)}</h3>
+      <p className="modal-p">{text}</p>
+    </div>
+  );
+}
+
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
@@ -57,6 +70,11 @@ export default function ProjectModal({
 }) {
   const lang = useLang();
   const t = useT();
+  const hasDetails =
+    project.tags.length > 0 ||
+    [project.problem, project.role, project.challenges, project.outcomes].some(
+      (value) => value?.[lang]?.trim(),
+    );
   const panelRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -87,7 +105,7 @@ export default function ProjectModal({
           { autoAlpha: 0, y: 14, duration: 0.4, stagger: 0.06 },
           0.2,
         )
-        .from(".modal-tags .tag", {
+        .from(".modal-tech .tag", {
           autoAlpha: 0,
           y: 10,
           duration: 0.35,
@@ -193,17 +211,31 @@ export default function ProjectModal({
               decoding="async"
             />
           ) : null}
-          <div className="modal-tags">
-            {project.tags.map((tag) => (
-              <span className="tag" key={tag}>
-                {tag}
-              </span>
-            ))}
-          </div>
-
           <div className="modal-content">
             <p className="modal-tldr">{project.tldr[lang]}</p>
-            <hr className="modal-hr" />
+
+            {hasDetails ? (
+              <div className="modal-details">
+                <Detail label={ui.problem} value={project.problem} lang={lang} />
+                <Detail label={ui.myRole} value={project.role} lang={lang} />
+                {project.tags.length > 0 ? (
+                  <div className="modal-detail">
+                    <h3 className="modal-h2">{t(ui.technologies)}</h3>
+                    <div className="modal-tech">
+                      {project.tags.map((tag) => (
+                        <span className="tag" key={tag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+                <Detail label={ui.challenges} value={project.challenges} lang={lang} />
+                <Detail label={ui.outcomes} value={project.outcomes} lang={lang} />
+              </div>
+            ) : null}
+
+            {project.body.length > 0 ? <hr className="modal-hr" /> : null}
             {project.body.map((block, index) => renderBlock(block, index, lang))}
 
             {(project.link || project.github) && (

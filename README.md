@@ -14,13 +14,19 @@ modal for project details.
 - **English / Nepali** language toggle — all copy is bilingual
 - **CV-style sections**: Home, Projects, Skills, Education, Activities,
   Certifications, Languages, Contact
-- **Project detail modal** with tags, summary, optional image, and long-form body
+- **Project detail modal** with summary, optional image, long-form body, and an
+  optional case study (problem, role, technologies, technical decisions,
+  outcomes) — empty fields are simply not rendered
+- **Project filtering** by technology — filter chips are derived from the
+  projects' own tags
 - **Project thumbnails** — optional image per project, with a styled fallback
 - **Activity photos with lightbox** — click a photo to expand it
 - **Scroll-reveal animations** via GSAP (fully disabled when the visitor prefers
   reduced motion)
-- **Accessible** — semantic landmarks, skip link, keyboard-operable modal and
-  menu, visible focus rings, reduced-motion support
+- **Accessible** — semantic landmarks, skip link, keyboard-operable modal, filter
+  chips and menu, visible focus rings, reduced-motion support
+- **Search & sharing** — canonical URL, generated Open Graph / Twitter card
+  image, `sitemap.xml`, and `robots.txt`
 - **Zero-CSS-framework styling** — plain CSS with design tokens (CSS variables)
 
 ## Tech stack
@@ -58,7 +64,11 @@ portfolio-1/
 │   ├── globals.css     # Design tokens and all styles
 │   ├── icon.svg        # Favicon
 │   ├── layout.tsx      # Metadata, fonts, theme/bootstrap script
-│   └── page.tsx        # Assembles the sections + sidebar
+│   ├── opengraph-image.tsx # Generated social-sharing image
+│   ├── page.tsx        # Assembles the sections + sidebar
+│   ├── robots.ts       # Generates /robots.txt
+│   ├── sitemap.ts      # Generates /sitemap.xml
+│   └── twitter-image.tsx  # Same card, used for Twitter/X
 ├── components/
 │   ├── Activities.tsx      # Activities list + photo lightbox
 │   ├── Certifications.tsx
@@ -68,15 +78,17 @@ portfolio-1/
 │   ├── Icons.tsx           # Inline SVG icon set
 │   ├── LanguageProvider.tsx# English/Nepali state (localStorage)
 │   ├── Languages.tsx
-│   ├── ProjectModal.tsx    # Slide-in project detail panel
-│   ├── Projects.tsx        # Project grid + cards
+│   ├── ProjectModal.tsx    # Slide-in project detail panel + case study
+│   ├── Projects.tsx        # Project grid, cards, technology filters
 │   ├── ScrollProgress.tsx  # Top progress bar
 │   ├── Section.tsx         # Shared section wrapper + heading
 │   ├── Sidebar.tsx         # Navigation, theme + language toggles
 │   └── Skills.tsx
 ├── lib/
 │   ├── data.ts         # All site content lives here
-│   └── gsap.ts         # GSAP setup + shared animation helpers
+│   ├── gsap.ts         # GSAP setup + shared animation helpers
+│   ├── og.tsx          # Renders the generated social card
+│   └── site.ts         # Canonical URL + site name
 ├── public/
 │   ├── activities/     # Activity photos
 │   ├── projects/       # Project thumbnails
@@ -160,11 +172,18 @@ export const projects: Project[] = [
     name: "My Project",
     date: "2025",
     description: { en: "One-line summary.", ne: "एक-लाइन सारांश।" },
-    tags: ["Next.js", "TypeScript"],
+    tags: ["Next.js", "TypeScript"],   // technologies — also drives the filters
     thumb: "/projects/my-project.png", // optional — see "Adding images"
     link: "https://demo.example.com",  // optional — "Live site" button
-    github: "https://github.com/you/my-project", // optional
+    github: "https://github.com/you/my-project", // optional — "Source" button
     tldr: { en: "Short intro.", ne: "छोटो परिचय।" }, // shown in the modal
+
+    // Optional case-study fields — rendered only when filled in
+    problem: { en: "The need this addresses.", ne: "…" },
+    role: { en: "What I designed and built.", ne: "…" },
+    challenges: { en: "Key technical decisions.", ne: "…" },
+    outcomes: { en: "Verifiable results only.", ne: "…" },
+
     body: [
       { type: "p", content: { en: "Overview…", ne: "परिचय…" } },
       { type: "h2", content: { en: "Highlights", ne: "मुख्य विशेषताहरू" } },
@@ -181,7 +200,52 @@ supports inline HTML such as `<strong>` and `<a href="…">`.
 - `github` / `link` are optional — the corresponding buttons only render when set.
 - `thumb` is optional — without it, the card shows a styled placeholder with the
   project name.
-- Projects past the first **4** are hidden behind a "Show more" button.
+- Projects past the first **4** are hidden behind a "Show more" button. The
+  button is hidden while a filter is active, so all matches stay visible.
+
+### Case study
+
+`problem`, `role`, `challenges`, and `outcomes` are optional bilingual (`Bi`)
+strings shown in the detail modal, in that order, between the summary and the
+free-form `body`. The `Technologies used` block reuses `tags`. Each block is
+skipped when its text is empty, so you can add them one at a time and nothing
+ever shows a blank heading.
+
+**Only put something in `outcomes` that you can actually verify** — a public
+URL, a published figure you own, or a quote you have permission to use. If you
+cannot back it up, leave the field out; it simply will not render. The same
+applies to the other case-study fields: do not invent work, metrics, or claims.
+
+### Filtering
+
+The filter chips at the top of the Projects section are generated from the
+`tags` of every project, ordered by how often each tag is used. Nothing is
+hard-coded, so the filters always match your current data. If only one tag
+exists the filter row is hidden entirely. Each chip is a real `<button>` with
+`aria-pressed`, so it works with the keyboard and the row wraps on mobile.
+Selecting a chip shows every project using that technology, updates the result
+count, and shows "No projects match this filter." if nothing matches. Click the
+active chip again (or "All") to clear the filter.
+
+### Adding or updating a project
+
+1. Open `lib/data.ts` and find `export const projects`.
+2. Copy the example above and set `id` to a unique kebab-case string.
+3. Fill in `name`, `date`, `description`, `tags`, `tldr`, and `body`.
+4. Drop a thumbnail into `public/projects/` and set `thumb: "/projects/name.png"`.
+5. Add case-study fields whenever you have something concrete and verifiable.
+6. Run `npm run dev` and click the project to review the modal.
+
+To update a project, edit its object — nothing else needs to change, and new
+`tags` automatically appear as filter chips. To remove one, delete its object;
+if it is the last project, the whole section (and its nav link) disappears.
+
+### Editing a case study
+
+Case-study text lives on the project object, right under `tags`. Keep `problem`
+and `role` to a couple of sentences and use `body` blocks (`h2` + `ul`) for
+longer detail. To state an outcome, first make sure there is a public source you
+can point to, then put that sentence in `outcomes`.
 
 ### Skills
 
@@ -298,6 +362,21 @@ scoped `gsap.context`. They automatically turn off for visitors who enable
 - "Skip to content" link, visible `:focus-visible` outlines
 - `prefers-reduced-motion` respected in both CSS and JS
 - Bilingual `lang` attribute on `<html>` follows the selected language
+
+## SEO & sharing
+
+- `app/layout.tsx` holds the page title, description, canonical URL, and the
+  Open Graph / Twitter fields.
+- The social card image is **generated at build time** from your existing
+  `profile` data (`lib/og.tsx` → `app/opengraph-image.tsx` and
+  `app/twitter-image.tsx`), so there is no image asset to upload or maintain.
+- `app/sitemap.ts` produces `/sitemap.xml` (one entry, since this is a single
+  page) and `app/robots.ts` produces `/robots.txt`.
+- The canonical host lives in `lib/site.ts` and is used by `metadataBase`, the
+  sitemap, robots, and the generated card image. Override it per environment
+  with the `NEXT_PUBLIC_SITE_URL` environment variable if needed.
+- Everything on the card comes from data you already entered (name, job title,
+  domain) — nothing is invented.
 
 ## Deployment
 

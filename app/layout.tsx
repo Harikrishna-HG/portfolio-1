@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Lato } from "next/font/google";
 import { LanguageInit } from "@/components/LanguageProvider";
+import { siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const lato = Lato({
@@ -13,7 +14,7 @@ const lato = Lato({
 const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}var l=localStorage.getItem('lang');if(l==='ne'){document.documentElement.classList.add('lang-pending')}}catch(e){}})();`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://harikrishnagautam.com.np"),
+  metadataBase: new URL(siteUrl),
   title: "Harikrishna Gautam | Portfolio",
   description:
     "Portfolio of Harikrishna Gautam — full stack developer and software engineer building modern web applications.",
@@ -25,16 +26,20 @@ export const metadata: Metadata = {
     "software engineer",
     "web developer",
   ],
+  applicationName: siteName,
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
   openGraph: {
     title: "Harikrishna Gautam | Portfolio",
     description:
       "Portfolio of Harikrishna Gautam — full stack developer and software engineer.",
     type: "website",
-    url: "https://harikrishnagautam.com.np",
-    siteName: "Harikrishna Gautam Portfolio",
+    url: siteUrl,
+    siteName,
+    locale: "en_US",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Harikrishna Gautam | Portfolio",
     description:
       "Portfolio of Harikrishna Gautam — full stack developer and software engineer.",
