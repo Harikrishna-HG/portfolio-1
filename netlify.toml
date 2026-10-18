@@ -3,8 +3,9 @@
 
 [build]
   command = "npm run build"
-  # Do NOT set `publish`. The Next.js Runtime manages build output,
-  # routing, SSR functions and caching automatically.
+  # Must not equal the base directory; the Next.js Runtime validates it
+  # and then takes over publishing (routing, SSR functions, caching).
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
