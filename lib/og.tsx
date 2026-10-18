@@ -28,7 +28,7 @@ export function renderPortfolioOgImage() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div
-            style={{ display: "flex", width: 44, height: 3, backgroundColor: "#f5f5f5" }}
+            style={{ display: "flex", width: 44, height: 3, backgroundColor: "#8000ff" }}
           />
           <div
             style={{ display: "flex", fontSize: 22, letterSpacing: 6, color: "#a3a3a3" }}

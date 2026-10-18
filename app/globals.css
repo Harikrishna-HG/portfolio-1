@@ -17,8 +17,10 @@
   --text-primary: #111111;
   --text-secondary: #555555;
   --text-muted: #888888;
-  --accent: #111111;
-  --link: #1a1a1a;
+  --accent: #8000ff;
+  --accent-strong: #5a00cc;
+  --accent-text: #5a00cc;
+  --link: #5a00cc;
   --sidebar-width: 240px;
   --font-fallback: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
@@ -32,8 +34,10 @@
   --text-primary: #e8e8e8;
   --text-secondary: #aaaaaa;
   --text-muted: #666668;
-  --accent: #e8e8e8;
-  --link: #e8e8e8;
+  --accent: #8000ff;
+  --accent-strong: #a855f7;
+  --accent-text: #b388ff;
+  --link: #b388ff;
 }
 
 html {
@@ -60,7 +64,8 @@ a {
 }
 
 a:hover {
-  opacity: 0.7;
+  color: var(--accent);
+  opacity: 1;
 }
 
 img {
@@ -79,12 +84,12 @@ h3 {
 }
 
 ::selection {
-  background: var(--text-primary);
-  color: var(--bg);
+  background: var(--accent);
+  color: #ffffff;
 }
 
 :focus-visible {
-  outline: 2px solid var(--text-primary);
+  outline: 2px solid var(--accent-text);
   outline-offset: 2px;
 }
 
@@ -111,6 +116,10 @@ h3 {
 
 .skip-link:focus {
   transform: translateY(0);
+}
+
+.skip-link:hover {
+  color: var(--bg);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -218,7 +227,7 @@ h3 {
 }
 
 .nav-link.active {
-  color: var(--text-primary);
+  color: var(--accent-text);
   font-weight: 700;
 }
 
@@ -255,8 +264,8 @@ h3 {
 }
 
 .toggle-btn:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
+  color: var(--accent-text);
+  border-color: var(--accent);
 }
 
 .toggle-btn svg {
@@ -327,7 +336,7 @@ h3 {
 
 .lang-toggle-btn.active {
   color: var(--bg);
-  background: var(--text-primary);
+  background: var(--accent-strong);
 }
 
 .lang-toggle-btn:not(.active):hover {
@@ -442,7 +451,7 @@ h3 {
 }
 
 .home-contact-link:hover {
-  color: var(--text-primary);
+  color: var(--accent-text);
   opacity: 1;
   text-decoration: none;
 }
@@ -507,8 +516,9 @@ h3 {
 }
 
 .cv-btn:hover {
-  color: #fff;
-  background: #111;
+  color: var(--bg);
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
   opacity: 1;
   text-decoration: none;
 }
@@ -519,8 +529,9 @@ h3 {
 }
 
 .dark .cv-btn:hover {
-  color: #111;
-  background: #e8e8e8;
+  color: var(--bg);
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
 }
 
 /* ============================================================
@@ -543,7 +554,7 @@ h3 {
 
 .project-card:hover {
   background: var(--bg-secondary);
-  border-color: var(--text-muted);
+  border-color: var(--accent);
 }
 
 .project-thumb-wrap {
@@ -702,8 +713,8 @@ h3 {
 }
 
 .github-link:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
+  color: var(--accent-text);
+  border-color: var(--accent);
   opacity: 1;
 }
 
@@ -726,8 +737,8 @@ h3 {
 }
 
 .show-more-btn:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
+  color: var(--accent-text);
+  border-color: var(--accent);
 }
 
 .project-filters {
@@ -751,14 +762,14 @@ h3 {
 }
 
 .filter-chip:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
+  color: var(--accent-text);
+  border-color: var(--accent);
 }
 
 .filter-chip[aria-pressed="true"] {
   color: var(--bg);
-  background: var(--text-primary);
-  border-color: var(--text-primary);
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
 }
 
 .project-count {
@@ -1304,7 +1315,7 @@ h3 {
 }
 
 .contact-icon-btn:hover {
-  color: var(--text-primary);
+  color: var(--accent-text);
   opacity: 1;
   text-decoration: none;
 }
@@ -1378,8 +1389,8 @@ h3 {
 }
 
 .modal-close:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
+  color: var(--accent-text);
+  border-color: var(--accent);
 }
 
 .modal-body {
