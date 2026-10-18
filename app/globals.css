@@ -64,7 +64,7 @@ a {
 }
 
 a:hover {
-  color: var(--accent);
+  color: var(--accent-text);
   opacity: 1;
 }
 
@@ -166,6 +166,7 @@ h3 {
 }
 
 .sidebar-name:hover {
+  color: var(--accent-text);
   opacity: 1;
 }
 
@@ -221,7 +222,7 @@ h3 {
 }
 
 .nav-link:hover {
-  color: var(--text-primary);
+  color: var(--accent-text);
   opacity: 1;
   text-decoration: none;
 }
@@ -340,7 +341,7 @@ h3 {
 }
 
 .lang-toggle-btn:not(.active):hover {
-  color: var(--text-primary);
+  color: var(--accent-text);
 }
 
 .lang-toggle-sep {
@@ -478,6 +479,10 @@ h3 {
 
 .bio-text a {
   color: var(--text-primary);
+}
+
+.bio-text a:hover {
+  color: var(--accent-text);
 }
 
 /* Section top row (label + action) */
@@ -639,6 +644,7 @@ h3 {
 
 .project-name a:hover,
 .project-name button:hover {
+  color: var(--accent-text);
   opacity: 1;
   text-decoration: underline;
 }
@@ -938,6 +944,10 @@ h3 {
   color: var(--text-primary);
 }
 
+.note-source a:hover {
+  color: var(--accent-text);
+}
+
 /* ============================================================
    Skills
    ============================================================ */
@@ -1101,8 +1111,8 @@ h3 {
 }
 
 .activity-project-link:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
+  color: var(--accent-text);
+  border-color: var(--accent);
   opacity: 1;
   text-decoration: none;
 }
@@ -1153,6 +1163,10 @@ h3 {
 .activity-highlights a {
   color: var(--text-primary);
   text-underline-offset: 2px;
+}
+
+.activity-highlights a:hover {
+  color: var(--accent-text);
 }
 
 .activity-photos {
@@ -1526,6 +1540,10 @@ h3 {
 
 .modal-content a {
   color: var(--text-primary);
+}
+
+.modal-content a:hover {
+  color: var(--accent-text);
 }
 
 .modal-links {
