@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import Section from "@/components/Section";
 import { ContactIcon } from "@/components/Icons";
 import { bio, homeContact, profile } from "@/lib/data";
@@ -77,13 +78,14 @@ export default function Home() {
   return (
     <Section id="home">
       <div className="home-header" ref={rootRef}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           className="profile-img"
           src="/profile.jpeg"
           alt={profile.name}
-          width={90}
-          height={90}
+          width={180}
+          height={180}
+          sizes="90px"
+          priority
         />
         <div>
           <h1 className="home-name" ref={nameRef}>

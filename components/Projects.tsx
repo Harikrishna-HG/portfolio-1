@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import Section from "@/components/Section";
 import ProjectModal from "@/components/ProjectModal";
 import {
@@ -67,14 +68,15 @@ function ProjectCard({
   return (
     <article className="project-card" ref={cardRef}>
       {project.thumb ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          className="project-thumb"
-          src={project.thumb}
-          alt={`${project.name} preview`}
-          loading="lazy"
-          decoding="async"
-        />
+        <div className="project-thumb-wrap">
+          <Image
+            className="project-thumb"
+            src={project.thumb}
+            alt={`${project.name} preview`}
+            fill
+            sizes="(min-width: 1100px) 25vw, (min-width: 700px) 33vw, (min-width: 480px) 50vw, 100vw"
+          />
+        </div>
       ) : (
         <div className="project-thumb-placeholder" aria-hidden="true">
           <span>{project.name}</span>
