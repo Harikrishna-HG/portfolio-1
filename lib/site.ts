@@ -8,4 +8,11 @@ export const siteUrl =
 
 export const siteName = "Harikrishna Gautam Portfolio";
 
+/** Primary SEO title — also used for Open Graph and Twitter cards. */
+export const siteTitle = "Harikrishna Gautam | Full Stack Software Developer Nepal";
+
+/** Primary meta description — also used for Open Graph and Twitter cards. */
+export const siteDescription =
+  "Portfolio of Harikrishna Gautam, a software developer in Nepal building full stack web apps with React, Next.js, .NET, SQL Server, AWS and Azure.";
+
 export const siteDomain = siteUrl.replace(/^https?:\/\//, "").replace(/\/$/, "");

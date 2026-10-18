@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Lato } from "next/font/google";
 import { LanguageInit } from "@/components/LanguageProvider";
-import { siteName, siteUrl } from "@/lib/site";
+import JsonLd from "@/components/JsonLd";
+import { siteDescription, siteName, siteTitle, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const lato = Lato({
@@ -15,24 +16,33 @@ const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t===
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Harikrishna Gautam | Portfolio",
-  description:
-    "Portfolio of Harikrishna Gautam — full stack developer and software engineer building modern web applications.",
+  title: siteTitle,
+  description: siteDescription,
   authors: [{ name: "Harikrishna Gautam" }],
   keywords: [
     "Harikrishna Gautam",
-    "portfolio",
-    "full stack developer",
-    "software engineer",
-    "web developer",
+    "Software Developer Nepal",
+    "Full Stack Developer Nepal",
+    "Web Developer Nepal",
+    "React Developer Nepal",
+    "Next.js Developer Nepal",
+    "ASP.NET Developer Nepal",
+    ".NET Developer Nepal",
+    "C# Developer",
+    "SQL Server Developer",
+    "AWS Developer",
+    "Microsoft Azure Developer",
+    "Cloud Developer",
+    "Cybersecurity Enthusiast",
+    "Secure Software Development",
+    "Portfolio Website",
   ],
   applicationName: siteName,
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "Harikrishna Gautam | Portfolio",
-    description:
-      "Portfolio of Harikrishna Gautam — full stack developer and software engineer.",
+    title: siteTitle,
+    description: siteDescription,
     type: "website",
     url: siteUrl,
     siteName,
@@ -40,9 +50,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Harikrishna Gautam | Portfolio",
-    description:
-      "Portfolio of Harikrishna Gautam — full stack developer and software engineer.",
+    title: siteTitle,
+    description: siteDescription,
     creator: "@hrkshnagtm",
   },
 };
@@ -63,6 +72,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body suppressHydrationWarning>
+        <JsonLd />
         <LanguageInit />
         {children}
       </body>

@@ -81,7 +81,7 @@ export default function Home() {
         <Image
           className="profile-img"
           src="/profile.jpeg"
-          alt={profile.name}
+          alt={`${profile.name} — Software Developer`}
           width={180}
           height={180}
           sizes="90px"
