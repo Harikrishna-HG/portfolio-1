@@ -83,6 +83,27 @@ h3 {
   text-wrap: balance;
 }
 
+/* Plain (non-link) text shifts to brand purple while hovered */
+h1,
+h2,
+h3,
+p,
+li,
+dd,
+dt {
+  transition: color 0.15s;
+}
+
+h1:hover,
+h2:hover,
+h3:hover,
+p:hover,
+li:hover,
+dd:hover,
+dt:hover {
+  color: var(--accent-text);
+}
+
 ::selection {
   background: var(--accent);
   color: #ffffff;
@@ -466,6 +487,11 @@ h3 {
 .bio-text p {
   max-width: 70ch;
   margin-bottom: 16px;
+  transition: color 0.15s;
+}
+
+.bio-text p:hover {
+  color: var(--accent-text);
 }
 
 .bio-text p:last-child {
