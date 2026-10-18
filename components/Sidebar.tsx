@@ -139,8 +139,19 @@ export default function Sidebar() {
     <aside className="sidebar" ref={rootRef}>
       <div className="sidebar-brand">
         <div className="sidebar-header">
-          <a className="sidebar-name" href="#home" onClick={handleNavClick}>
-            {profile.name}
+          <a
+            className="sidebar-name"
+            href="#home"
+            onClick={handleNavClick}
+            aria-label={profile.name}
+          >
+            <span className="sidebar-name-full">{profile.name}</span>
+            <span className="sidebar-name-short" aria-hidden="true">
+              {profile.name
+                .split(" ")
+                .map((word) => word.charAt(0))
+                .join("")}
+            </span>
           </a>
         </div>
         <p className="sidebar-title">{t(profile.title)}</p>
