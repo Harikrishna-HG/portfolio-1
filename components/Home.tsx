@@ -80,7 +80,7 @@ export default function Home() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="profile-img"
-          src="/profile.svg"
+          src="/profile.jpeg"
           alt={profile.name}
           width={90}
           height={90}

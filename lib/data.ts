@@ -201,7 +201,10 @@ const allNavSections: SectionNavItem[] = [
   { id: "skills", label: { en: "Skills", ne: "सीपहरू" } },
   { id: "education", label: { en: "Education", ne: "शिक्षा" } },
   { id: "activities", label: { en: "Activities", ne: "गतिविधिहरू" } },
-  { id: "certifications", label: { en: "Certifications", ne: "प्रमाणपत्रहरू" } },
+  {
+    id: "certifications",
+    label: { en: "Certifications", ne: "प्रमाणपत्रहरू" },
+  },
   { id: "languages", label: { en: "Languages", ne: "भाषाहरू" } },
   { id: "contact", label: { en: "Contact", ne: "सम्पर्क" } },
 ];
@@ -209,12 +212,24 @@ const allNavSections: SectionNavItem[] = [
 function buildHomeContacts(p: Profile): ContactItem[] {
   const items: ContactItem[] = [];
   if (p.email) {
-    items.push({ label: { en: "Email", ne: "इमेल" }, href: `mailto:${p.email}`, icon: "mail" });
+    items.push({
+      label: { en: "Email", ne: "इमेल" },
+      href: `mailto:${p.email}`,
+      icon: "mail",
+    });
   }
-  if (p.github) items.push({ label: bi("GitHub"), href: p.github, icon: "github" });
-  if (p.linkedin) items.push({ label: bi("LinkedIn"), href: p.linkedin, icon: "linkedin" });
-  if (p.twitter) items.push({ label: bi("Twitter"), href: p.twitter, icon: "twitter" });
-  if (p.website) items.push({ label: { en: "Website", ne: "वेबसाइट" }, href: p.website, icon: "globe" });
+  if (p.github)
+    items.push({ label: bi("GitHub"), href: p.github, icon: "github" });
+  if (p.linkedin)
+    items.push({ label: bi("LinkedIn"), href: p.linkedin, icon: "linkedin" });
+  if (p.twitter)
+    items.push({ label: bi("Twitter"), href: p.twitter, icon: "twitter" });
+  if (p.website)
+    items.push({
+      label: { en: "Website", ne: "वेबसाइट" },
+      href: p.website,
+      icon: "globe",
+    });
   return items;
 }
 
@@ -223,12 +238,24 @@ function buildContacts(p: Profile): ContactItem[] {
   if (p.email) {
     items.push({ label: bi(p.email), href: `mailto:${p.email}`, icon: "mail" });
   }
-  if (p.github) items.push({ label: bi("GitHub"), href: p.github, icon: "github" });
-  if (p.linkedin) items.push({ label: bi("LinkedIn"), href: p.linkedin, icon: "linkedin" });
-  if (p.twitter) items.push({ label: bi("Twitter"), href: p.twitter, icon: "twitter" });
-  if (p.website) items.push({ label: { en: "Website", ne: "वेबसाइट" }, href: p.website, icon: "globe" });
+  if (p.github)
+    items.push({ label: bi("GitHub"), href: p.github, icon: "github" });
+  if (p.linkedin)
+    items.push({ label: bi("LinkedIn"), href: p.linkedin, icon: "linkedin" });
+  if (p.twitter)
+    items.push({ label: bi("Twitter"), href: p.twitter, icon: "twitter" });
+  if (p.website)
+    items.push({
+      label: { en: "Website", ne: "वेबसाइट" },
+      href: p.website,
+      icon: "globe",
+    });
   if (p.resumeUrl) {
-    items.push({ label: { en: "Resume", ne: "रिजुमे" }, href: p.resumeUrl, icon: "resume" });
+    items.push({
+      label: { en: "Resume", ne: "रिजुमे" },
+      href: p.resumeUrl,
+      icon: "resume",
+    });
   }
   return items;
 }
@@ -298,6 +325,7 @@ export const projects: Project[] = [
       ne: "रियल-टाइम ट्र्याकिङ, रुट अप्टिमाइजेसन र प्रयोगकर्तामैत्री इन्टरफेस सहितको पूर्ण यातायात व्यवस्थापन प्रणाली।",
     },
     tags: ["Next.js", "React", "Tailwind CSS"],
+    thumb: "/projects/yatayat.png",
     link: "https://yatayat.vercel.app",
     github: "https://github.com/Harikrishna-HG",
     tldr: {
@@ -902,11 +930,11 @@ export const activities: ActivityItem[] = [
     },
     photos: [
       {
-        src: "/activities/photo-1.svg",
+        src: "/activities/photo-1.png",
         caption: { en: "Contribution graph", ne: "योगदान ग्राफ" },
       },
       {
-        src: "/activities/photo-2.svg",
+        src: "/activities/photo-2.png",
         caption: { en: "Pull request review", ne: "पुल रिक्वेस्ट समीक्षा" },
       },
     ],
@@ -931,7 +959,11 @@ export const activities: ActivityItem[] = [
     },
     photos: [
       {
-        src: "/activities/photo-3.svg",
+        src: "/activities/photo-2.png",
+        caption: { en: "Club workshop", ne: "क्लब कार्यशाला" },
+      },
+      {
+        src: "/activities/photo-2.png",
         caption: { en: "Club workshop", ne: "क्लब कार्यशाला" },
       },
     ],
@@ -1007,13 +1039,25 @@ export const certifications: AwardItem[] = [
 export const languages: LanguageItem[] = [
   {
     name: { en: "English", ne: "अंग्रेजी" },
-    level: { en: "Professional working proficiency", ne: "व्यावसायिक कार्य दक्षता" },
+    level: {
+      en: "Professional working proficiency",
+      ne: "व्यावसायिक कार्य दक्षता",
+    },
   },
-  { name: { en: "Nepali", ne: "नेपाली" }, level: { en: "Native speaker", ne: "मातृभाषी" } },
-  { name: { en: "Hindi", ne: "हिन्दी" }, level: { en: "Conversational", ne: "कुराकानी स्तर" } },
+  {
+    name: { en: "Nepali", ne: "नेपाली" },
+    level: { en: "Native speaker", ne: "मातृभाषी" },
+  },
+  {
+    name: { en: "Hindi", ne: "हिन्दी" },
+    level: { en: "Conversational", ne: "कुराकानी स्तर" },
+  },
 ];
 
-export const contacts: ContactItem[] = [...buildContacts(profile), ...extraContacts];
+export const contacts: ContactItem[] = [
+  ...buildContacts(profile),
+  ...extraContacts,
+];
 
 /**
  * Which sections have content. Empty sections are hidden from the page and the
@@ -1065,7 +1109,10 @@ export const ui = {
   responsiblePractice: { en: "Responsible practice", ne: "जिम्मेवार अभ्यास" },
   myNotes: { en: "My notes", ne: "मेरा टिप्पणीहरू" },
   viewSource: { en: "View source", ne: "स्रोत हेर्नुहोस्" },
-  filterByTech: { en: "Filter projects by technology", ne: "प्रविधि अनुसार परियोजना फिल्टर गर्नुहोस्" },
+  filterByTech: {
+    en: "Filter projects by technology",
+    ne: "प्रविधि अनुसार परियोजना फिल्टर गर्नुहोस्",
+  },
   allProjects: { en: "All", ne: "सबै" },
   noProjects: {
     en: "No projects match this filter.",

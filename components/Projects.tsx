@@ -104,6 +104,17 @@ function ProjectCard({
             ))}
           </div>
           <div className="project-links">
+            {project.link ? (
+              <a
+                className="github-link"
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${project.name} ${t(ui.liveSite)}`}
+              >
+                {t(ui.liveSite)}
+              </a>
+            ) : null}
             {project.github ? (
               <a
                 className="github-link"

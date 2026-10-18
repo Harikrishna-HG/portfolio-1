@@ -241,13 +241,35 @@ active chip again (or "All") to clear the filter.
 1. Open `lib/data.ts` and find `export const projects`.
 2. Copy the example above and set `id` to a unique kebab-case string.
 3. Fill in `name`, `date`, `description`, `tags`, `tldr`, and `body`.
-4. Drop a thumbnail into `public/projects/` and set `thumb: "/projects/name.png"`.
+4. Add the cover image (see below) and set `thumb: "/projects/name.png"`.
 5. Add case-study fields whenever you have something concrete and verifiable.
 6. Run `npm run dev` and click the project to review the modal.
 
 To update a project, edit its object — nothing else needs to change, and new
 `tags` automatically appear as filter chips. To remove one, delete its object;
 if it is the last project, the whole section (and its nav link) disappears.
+
+### Project cover image
+
+There is **no upload UI** — this is a static site, so covers are plain files in
+the repo:
+
+1. Save the image to `public/projects/` (e.g. `public/projects/yatayat.png`).
+2. Set `thumb: "/projects/yatayat.png"` on the project in `lib/data.ts`.
+
+The cover appears on both the project card and the detail modal. Use a 16:9
+image (e.g. 1600×900), compressed. If `thumb` is omitted the card shows a styled
+placeholder with the project name, so covers are always optional.
+
+### Live site & source links
+
+- `link` adds a **"Live site"** button on the card footer and in the modal.
+- `github` adds a **"Source"** button in the modal and a compact **"GH"** button
+  on the card.
+- `links` adds any extra labelled links in the modal (write-ups, demos,
+  datasets…).
+
+All three are optional and render only when set.
 
 ### Editing a case study
 
@@ -448,7 +470,7 @@ Put files in `public/` and reference them from the site root (no import needed).
 
 | What               | Folder / file            | Reference                                        | Recommendation                         |
 | ------------------ | ------------------------ | ------------------------------------------------ | -------------------------------------- |
-| Project thumbnail  | `public/projects/`       | `thumb: "/projects/name.png"`                    | 16:9 (e.g. 1600×900), compressed       |
+| Project cover      | `public/projects/`       | `thumb: "/projects/name.png"`                    | 16:9 (e.g. 1600×900), compressed       |
 | Activity photo     | `public/activities/`     | `photos: [{ src: "/activities/x.jpg", … }]`      | Landscape; displayed ~150px tall (crop)|
 | Avatar             | `public/profile.svg`     | `Home.tsx` → `/profile.svg`                       | Square (rendered 90×90), 1:1           |
 | Résumé             | `public/resume.pdf`      | `profile.resumeUrl`                               | PDF                                    |
