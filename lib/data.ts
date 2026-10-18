@@ -177,12 +177,12 @@ export const profile: Profile = {
   name: "Harikrishna Gautam",
   initials: "HG",
   title: {
-    en: "Full Stack Developer & Software Engineer",
-    ne: "फुल स्ट्याक डेभलपर र सफ्टवेयर इन्जिनियर",
+    en: "Software Developer | Full Stack, Cloud & Security",
+    ne: "सफ्टवेयर डेभलपर | फुल स्ट्याक, क्लाउड र सुरक्षा",
   },
   subtitle: {
-    en: "Computer Science student and full stack developer building modern, user-focused web applications.",
-    ne: "कम्प्युटर साइन्सका विद्यार्थी र फुल स्ट्याक डेभलपर, आधुनिक र प्रयोगकर्तामैत्री वेब एप्लिकेसन बनाउँदै।",
+    en: "Software developer in Nepal building full stack web applications with React, Next.js and .NET — with a focus on cloud and secure development.",
+    ne: "नेपालका सफ्टवेयर डेभलपर, React, Next.js र .NET मा फुल स्ट्याक वेब एप्लिकेसन बनाउँदै — क्लाउड र सुरक्षित विकासमा केन्द्रित।",
   },
   location: { en: "Nepal", ne: "नेपाल" },
   email: "hrkshnagtm@gmail.com",
@@ -267,12 +267,12 @@ export const homeContact: ContactItem[] = buildHomeContacts(profile);
 
 export const bio: BiList = {
   en: [
-    "I am a passionate software developer with a strong foundation in web development and a keen interest in creating user-friendly applications. I enjoy working with modern technologies and frameworks to build scalable, efficient solutions.",
-    "My journey in technology has equipped me with both theoretical knowledge and practical skills. I'm constantly learning and adapting to new technologies, always striving to improve my craft and deliver high-quality work.",
+    "I'm a software developer based in Nepal with experience across full stack web development, cloud technologies, database management, and cybersecurity fundamentals. I build modern web applications with React, Next.js, and .NET, backed by SQL Server and REST APIs.",
+    "I graduated in 2024 with a Bachelor's degree in Computer Science, and I work across the stack — from responsive front ends to APIs, databases, and deployment on AWS and Microsoft Azure. Secure software development matters to me: authentication and authorization, OWASP Top 10 awareness, and practical security best practices are part of how I build.",
   ],
   ne: [
-    "म वेब डेभलपमेन्टमा बलियो आधार भएको र प्रयोगकर्तामैत्री एप्लिकेसन बनाउन इच्छुक सफ्टवेयर डेभलपर हुँ। आधुनिक प्रविधि र फ्रेमवर्कहरू प्रयोग गरी स्केलेबल र प्रभावकारी समाधान बनाउन मन पर्छ।",
-    "प्रविधिको यात्रामा मैले सैद्धान्तिक ज्ञान र व्यावहारिक सीप दुवै हासिल गरेको छु। म निरन्तर नयाँ प्रविधि सिक्दै अभ्यास गर्दै उच्च गुणस्तरको काम गर्न प्रयासरत छु।",
+    "म नेपालमा आधारित सफ्टवेयर डेभलपर हुँ, जसको अनुभव फुल स्ट्याक वेब डेभलपमेन्ट, क्लाउड प्रविधि, डेटाबेस व्यवस्थापन र साइबर सुरक्षाका आधारहरूमा छ। React, Next.js र .NET मा आधुनिक वेब एप्लिकेसन बनाउँछु, जसको आधार SQL Server र REST API हुन्।",
+    "मैले २०२४ मा कम्प्युटर साइन्समा स्नातक उपाधि प्राप्त गरेको छु र स्ट्याकका हरेक तहमा काम गर्छु — रेस्पोन्सिभ फ्रन्टएन्डदेखि API, डेटाबेस र AWS तथा Microsoft Azure मा डिप्लोयमेन्टसम्म। सुरक्षित सफ्टवेयर विकास मेरो लागि महत्त्वपूर्ण छ: प्रमाणीकरण र प्राधिकरण, OWASP Top 10 चेतना, र व्यावहारिक सुरक्षा सर्वोत्तम अभ्यासहरू मेरो निर्माण शैलीको भाग हुन्।",
   ],
 };
 
@@ -321,8 +321,8 @@ export const projects: Project[] = [
     name: "Yatayat",
     date: "2025",
     description: {
-      en: "A comprehensive transportation management system with real-time tracking, route optimization, and a user-friendly interface.",
-      ne: "रियल-टाइम ट्र्याकिङ, रुट अप्टिमाइजेसन र प्रयोगकर्तामैत्री इन्टरफेस सहितको पूर्ण यातायात व्यवस्थापन प्रणाली।",
+      en: "Transportation management system built with Next.js and React, featuring real-time vehicle tracking, route optimization, and a responsive interface.",
+      ne: "Next.js र React मा निर्मित यातायात व्यवस्थापन प्रणाली — रियल-टाइम सवारी ट्र्याकिङ, रुट अप्टिमाइजेसन र रेस्पोन्सिभ इन्टरफेससहित।",
     },
     tags: ["Next.js", "React", "Tailwind CSS"],
     thumb: "/projects/yatayat.png",
@@ -596,32 +596,33 @@ export const researchInterests: {
     {
       title: { en: "Cybersecurity", ne: "साइबर सुरक्षा" },
       description: {
-        en: "I want to understand how systems are attacked and defended — application security, network fundamentals, and secure development practices — building a strong ethical foundation first.",
-        ne: "सिस्टमहरू कसरी आक्रमणको सिकार र सुरक्षित गरिन्छन् — एप्लिकेसन सुरक्षा, नेटवर्क आधार र सुरक्षित विकास अभ्यास — बुझ्न चाहन्छु, पहिले बलियो नैतिक आधार बनाउँदै।",
+        en: "How systems are attacked and defended — secure software development, OWASP Top 10, authentication and authorization, and the security best practices I apply when building applications.",
+        ne: "सिस्टमहरू कसरी आक्रमणको सिकार र सुरक्षित गरिन्छन् — सुरक्षित सफ्टवेयर विकास, OWASP Top 10, प्रमाणीकरण र प्राधिकरण, तथा एप्लिकेसन बनाउँदै मैले लागू गर्ने सुरक्षा सर्वोत्तम अभ्यासहरू।",
       },
-      topics: ["Application Security", "Network Security", "Secure Coding"],
+      topics: ["OWASP Top 10", "Secure Coding", "Authentication & Authorization"],
+    },
+    {
+      title: { en: "Cloud Computing", ne: "क्लाउड कम्प्युटिङ" },
+      description: {
+        en: "Deploying and scaling applications on Amazon Web Services and Microsoft Azure — building hands-on understanding of cloud architecture, hosting, and CI/CD practices.",
+        ne: "Amazon Web Services र Microsoft Azure मा एप्लिकेसन डिप्लोय र स्केल गर्ने — क्लाउड आर्किटेक्चर, होस्टिङ र CI/CD अभ्यासको व्यावहारिक बुझाइ बनाउँदै।",
+      },
+      topics: ["AWS", "Microsoft Azure", "CI/CD"],
     },
     {
       title: {
-        en: "Artificial Intelligence & Machine Learning",
-        ne: "कृत्रिम बुद्धिमत्ता र मेसिन लर्निङ",
+        en: "Software Architecture & Modern Web Applications",
+        ne: "सफ्टवेयर आर्किटेक्चर र आधुनिक वेब एप्लिकेसन",
       },
       description: {
-        en: "I want to learn how models learn from data — the fundamentals of machine learning, deep learning, and natural language processing — and how these methods are applied and evaluated responsibly.",
-        ne: "मोडेलहरूले डेटाबाट कसरी सिक्छन् — मेसिन लर्निङ, डीप लर्निङ र प्राकृतिक भाषा प्रशोधनका आधार — र यी विधि कसरी जिम्मेवार रूपमा प्रयोग र मूल्याङ्कन गरिन्छन् भन्ने सिक्न चाहन्छु।",
+        en: "Designing maintainable full stack applications — REST API design, database modelling with SQL Server, and modern web application patterns with React and .NET.",
+        ne: "मर्मतयोग्य फुल स्ट्याक एप्लिकेसन डिजाइन गर्ने — REST API डिजाइन, SQL Server सँग डेटाबेस मोडेलिङ, र React तथा .NET सँग आधुनिक वेब एप्लिकेसन ढाँचाहरू।",
       },
-      topics: ["Machine Learning", "Deep Learning", "NLP"],
-    },
-    {
-      title: {
-        en: "Research & Evidence-Based Learning",
-        ne: "अनुसन्धान र प्रमाण-आधारित सिकाइ",
-      },
-      description: {
-        en: "I am interested in reading and understanding research, trying small reproducible experiments, and learning to evaluate claims carefully instead of taking them at face value.",
-        ne: "अनुसन्धान पढ्न र बुझ्न, साना पुनरुत्पादनयोग्य प्रयोग गर्न, र दाबीहरूलाई जस्ताको तस्तै नमानी सावधानीपूर्वक मूल्याङ्कन गर्न सिक्नमा रुचि राख्छु।",
-      },
-      topics: ["Paper Reading", "Reproducibility", "Critical Evaluation"],
+      topics: [
+        "Full Stack Development",
+        "REST API Design",
+        "Web Application Design",
+      ],
     },
   ],
 };
@@ -666,28 +667,55 @@ export const readingNotes: {
 
 export const skills: SkillGroup[] = [
   {
-    category: { en: "Languages", ne: "भाषाहरू" },
-    keywords: ["JavaScript", "TypeScript", "Python", "Java", "C++"],
-  },
-  {
     category: { en: "Frontend", ne: "फ्रन्टएन्ड" },
-    keywords: ["React", "Next.js", "Vue.js", "HTML5", "CSS3", "Tailwind CSS"],
+    keywords: [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "TypeScript",
+      "React.js",
+      "Next.js",
+      "Responsive Web Design",
+    ],
   },
   {
     category: { en: "Backend", ne: "ब्याकएन्ड" },
-    keywords: ["Node.js", "Express", "REST APIs", "Authentication"],
+    keywords: ["C#", "ASP.NET MVC", "ASP.NET Core", ".NET 9", "REST APIs"],
   },
   {
     category: { en: "Databases", ne: "डेटाबेसहरू" },
-    keywords: ["MongoDB", "PostgreSQL", "MySQL", "Redis"],
+    keywords: ["SQL Server", "SSMS", "Database Design", "Query Optimization"],
+  },
+  {
+    category: { en: "Cloud & DevOps", ne: "क्लाउड र DevOps" },
+    keywords: [
+      "AWS",
+      "Microsoft Azure",
+      "Git",
+      "GitHub",
+      "CI/CD Concepts",
+      "Deployment & Hosting",
+    ],
   },
   {
     category: { en: "Tools", ne: "उपकरणहरू" },
-    keywords: ["Git", "GitHub", "Docker", "VS Code", "Vercel"],
+    keywords: [
+      "Visual Studio",
+      "Visual Studio Code",
+      "Postman",
+      "GitHub Actions",
+    ],
   },
   {
-    category: { en: "Cloud", ne: "क्लाउड" },
-    keywords: ["AWS", "Vercel", "CI/CD"],
+    category: { en: "Cybersecurity", ne: "साइबर सुरक्षा" },
+    keywords: [
+      "Cybersecurity Fundamentals",
+      "Secure Software Development",
+      "OWASP Top 10",
+      "Authentication & Authorization",
+      "Security Best Practices",
+      "Vulnerability Awareness",
+    ],
   },
 ];
 
@@ -855,6 +883,144 @@ export const skillColors: Record<string, ChipColor> = {
     darkBg: "#022c22",
     darkText: "#5eead4",
   },
+  "React.js": {
+    bg: "#cffafe",
+    text: "#0e7490",
+    darkBg: "#0c2a3d",
+    darkText: "#67e8f9",
+  },
+  "Responsive Web Design": {
+    bg: "#dbeafe",
+    text: "#1d4ed8",
+    darkBg: "#1e3358",
+    darkText: "#93c5fd",
+  },
+  "C#": {
+    bg: "#e0e7ff",
+    text: "#4338ca",
+    darkBg: "#1e1b4b",
+    darkText: "#a5b4fc",
+  },
+  "ASP.NET MVC": {
+    bg: "#ede9fe",
+    text: "#5b21b6",
+    darkBg: "#2e1065",
+    darkText: "#c4b5fd",
+  },
+  "ASP.NET Core": {
+    bg: "#fee2e2",
+    text: "#dc2626",
+    darkBg: "#3f0000",
+    darkText: "#fca5a5",
+  },
+  ".NET 9": {
+    bg: "#e0e7ff",
+    text: "#4338ca",
+    darkBg: "#1e1b4b",
+    darkText: "#a5b4fc",
+  },
+  "SQL Server": {
+    bg: "#fff0e0",
+    text: "#c05700",
+    darkBg: "#3d1f00",
+    darkText: "#fdba74",
+  },
+  SSMS: {
+    bg: "#f1f5f9",
+    text: "#475569",
+    darkBg: "#1e293b",
+    darkText: "#94a3b8",
+  },
+  "Database Design": {
+    bg: "#dcfce7",
+    text: "#15803d",
+    darkBg: "#052e16",
+    darkText: "#86efac",
+  },
+  "Query Optimization": {
+    bg: "#ccfbf1",
+    text: "#0d9488",
+    darkBg: "#022c22",
+    darkText: "#5eead4",
+  },
+  "Microsoft Azure": {
+    bg: "#dbeafe",
+    text: "#1d4ed8",
+    darkBg: "#1e3a5f",
+    darkText: "#93c5fd",
+  },
+  "CI/CD Concepts": {
+    bg: "#ccfbf1",
+    text: "#0d9488",
+    darkBg: "#022c22",
+    darkText: "#5eead4",
+  },
+  "Deployment & Hosting": {
+    bg: "#f3f4f6",
+    text: "#374151",
+    darkBg: "#1f2937",
+    darkText: "#d1d5db",
+  },
+  "Visual Studio": {
+    bg: "#ede9fe",
+    text: "#5b21b6",
+    darkBg: "#2e1065",
+    darkText: "#c4b5fd",
+  },
+  "Visual Studio Code": {
+    bg: "#dbeafe",
+    text: "#1d4ed8",
+    darkBg: "#1e3a5f",
+    darkText: "#93c5fd",
+  },
+  Postman: {
+    bg: "#fff7ed",
+    text: "#c2410c",
+    darkBg: "#3d1500",
+    darkText: "#fb923c",
+  },
+  "GitHub Actions": {
+    bg: "#f3f4f6",
+    text: "#374151",
+    darkBg: "#1f2937",
+    darkText: "#d1d5db",
+  },
+  "Cybersecurity Fundamentals": {
+    bg: "#fee2e2",
+    text: "#dc2626",
+    darkBg: "#3f0000",
+    darkText: "#fca5a5",
+  },
+  "Secure Software Development": {
+    bg: "#dcfce7",
+    text: "#15803d",
+    darkBg: "#052e16",
+    darkText: "#86efac",
+  },
+  "OWASP Top 10": {
+    bg: "#fef9c3",
+    text: "#854d0e",
+    darkBg: "#3d2e00",
+    darkText: "#fde68a",
+  },
+  "Authentication & Authorization": {
+    bg: "#fef3c7",
+    text: "#92400e",
+    darkBg: "#3d2000",
+    darkText: "#fde68a",
+  },
+  "Security Best Practices": {
+    bg: "#e0e7ff",
+    text: "#4338ca",
+    darkBg: "#1e1b4b",
+    darkText: "#a5b4fc",
+  },
+  "Vulnerability Awareness": {
+    bg: "#fee2e2",
+    text: "#dc2626",
+    darkBg: "#3f0000",
+    darkText: "#fca5a5",
+  },
 };
 
 export const education: EducationItem[] = [
@@ -863,7 +1029,7 @@ export const education: EducationItem[] = [
       en: "Far Western University",
       ne: "Far Western University",
     },
-    date: { en: "2022 — Present", ne: "2022 — हालसम्म" },
+    date: { en: "2020 — 2024", ne: "2020 — 2024" },
     degree: {
       en: "Bachelor's Degree in Computer Science",
       ne: "कम्प्युटर साइन्समा स्नातक",
@@ -878,12 +1044,12 @@ export const education: EducationItem[] = [
     ],
     highlights: {
       en: [
-        "Pursuing advanced studies in technology and computer science.",
-        "Active in project-based learning and software engineering coursework.",
+        "Graduated in 2024 with a Bachelor's degree in Computer Science.",
+        "Coursework in data structures, databases, operating systems, and web development.",
       ],
       ne: [
-        "प्रविधि र कम्प्युटर साइन्समा उच्च अध्ययन गर्दै।",
-        "परियोजना-आधारित सिकाइ र सफ्टवेयर इन्जिनियरिङ पाठ्यक्रममा सक्रिय।",
+        "२०२४ मा कम्प्युटर साइन्समा स्नातक उपाधि प्राप्त।",
+        "डेटा संरचना, डेटाबेस, अपरेटिङ सिस्टम र वेब डेभलपमेन्टको पाठ्यक्रम।",
       ],
     },
   },
