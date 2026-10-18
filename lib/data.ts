@@ -1121,4 +1121,5 @@ export const ui = {
   relevantCoursework: { en: "Relevant coursework", ne: "सम्बन्धित पाठ्यक्रम" },
   downloadCv: { en: "Download CV", ne: "CV डाउनलोड गर्नुहोस्" },
   close: { en: "Close", ne: "बन्द गर्नुहोस्" },
+  viewLarger: { en: "View larger image", ne: "ठूलो तस्बिर हेर्नुहोस्" },
 } satisfies Record<string, Bi>;

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type {
   Bi,
   BiList,
@@ -151,6 +152,15 @@ export default function ProjectModal({
   const overlayRef = useRef<HTMLDivElement>(null);
   const closingRef = useRef(false);
   const onCloseRef = useRef(onClose);
+  const [closeUp, setCloseUp] = useState(false);
+  const closeUpRef = useRef(false);
+  const closeUpImgRef = useRef<HTMLImageElement>(null);
+  const closeUpCloseRef = useRef<HTMLButtonElement>(null);
+  const thumbBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    closeUpRef.current = closeUp;
+  }, [closeUp]);
 
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -171,20 +181,62 @@ export default function ProjectModal({
           { xPercent: 0, duration: 0.55, ease: "power3.out" },
           0,
         )
-        .from(
+        .fromTo(
           [".modal-date", ".modal-title", ".modal-close"],
-          { autoAlpha: 0, y: 14, duration: 0.4, stagger: 0.06 },
+          { autoAlpha: 0, y: 14 },
+          { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.06 },
           0.2,
         )
-        .from(".modal-tech .tag", {
-          autoAlpha: 0,
-          y: 10,
-          duration: 0.35,
-          stagger: 0.03,
-        }, 0.3);
+        .fromTo(
+          ".modal-tech .tag",
+          { autoAlpha: 0, y: 10 },
+          { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.03 },
+          0.3,
+        );
     });
     return () => ctx.revert();
   }, []);
+
+  useIsoLayoutEffect(() => {
+    if (!closeUp || prefersReducedMotion()) return;
+    const img = closeUpImgRef.current;
+    const closeBtn = closeUpCloseRef.current;
+    if (!img || !closeBtn) return;
+    const ctx = gsap.context(() => {
+      gsap
+        .timeline()
+        .fromTo(
+          img,
+          { autoAlpha: 0, scale: 0.88 },
+          { autoAlpha: 1, scale: 1, duration: 0.45, ease: "power3.out" },
+        )
+        .fromTo(
+          closeBtn,
+          { autoAlpha: 0, y: -8 },
+          { autoAlpha: 1, y: 0, duration: 0.3 },
+          0.2,
+        );
+    });
+    return () => ctx.revert();
+  }, [closeUp]);
+
+  const closeCloseUp = useCallback(() => {
+    setCloseUp(false);
+    thumbBtnRef.current?.focus({ preventScroll: true });
+  }, []);
+
+  useEffect(() => {
+    if (!closeUp) return;
+    closeUpCloseRef.current?.focus({ preventScroll: true });
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.stopPropagation();
+        closeCloseUp();
+      }
+    };
+    document.addEventListener("keydown", onKey, true);
+    return () => document.removeEventListener("keydown", onKey, true);
+  }, [closeUp, closeCloseUp]);
 
   const handleClose = () => {
     if (closingRef.current) return;
@@ -206,6 +258,7 @@ export default function ProjectModal({
     closeBtnRef.current?.focus({ preventScroll: true });
 
     const onKey = (event: KeyboardEvent) => {
+      if (closeUpRef.current) return;
       if (event.key === "Escape") {
         handleClose();
         return;
@@ -281,13 +334,21 @@ export default function ProjectModal({
 
         <div className="modal-body">
           {project.thumb ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              className="modal-thumb"
-              src={project.thumb}
-              alt={`${project.name} preview`}
-              decoding="async"
-            />
+            <button
+              type="button"
+              className="modal-thumb-button"
+              ref={thumbBtnRef}
+              onClick={() => setCloseUp(true)}
+              aria-label={t(ui.viewLarger)}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="modal-thumb"
+                src={project.thumb}
+                alt={`${project.name} preview`}
+                decoding="async"
+              />
+            </button>
           ) : null}
           <div className="modal-content">
             <p className="modal-tldr">{project.tldr[lang]}</p>
@@ -398,6 +459,41 @@ export default function ProjectModal({
           </div>
         </div>
       </div>
+
+      {closeUp && project.thumb
+        ? createPortal(
+            <div
+              className="lightbox-overlay lightbox-overlay--project"
+              role="presentation"
+              onClick={(event) => {
+                event.stopPropagation();
+                closeCloseUp();
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="lightbox-img"
+                ref={closeUpImgRef}
+                src={project.thumb}
+                alt={`${project.name} full size`}
+                onClick={(event) => event.stopPropagation()}
+              />
+              <button
+                type="button"
+                className="lightbox-close"
+                ref={closeUpCloseRef}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  closeCloseUp();
+                }}
+                aria-label={t(ui.close)}
+              >
+                ✕
+              </button>
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }

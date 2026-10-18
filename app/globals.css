@@ -1198,6 +1198,10 @@ h3 {
   opacity: 1;
 }
 
+.lightbox-overlay--project {
+  z-index: 1100;
+}
+
 /* ============================================================
    Awards / Certifications
    ============================================================ */
@@ -1379,6 +1383,25 @@ h3 {
   object-fit: cover;
   margin-bottom: 20px;
   border: 1px solid var(--border);
+}
+
+.modal-thumb-button {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: zoom-in;
+}
+
+.modal-thumb-button .modal-thumb {
+  margin-bottom: 0;
+  transition: opacity 0.15s;
+}
+
+.modal-thumb-button:hover .modal-thumb {
+  opacity: 0.9;
 }
 
 .modal-details {
