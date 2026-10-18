@@ -470,9 +470,10 @@ Put files in `public/` and reference them from the site root (no import needed).
 
 | What               | Folder / file            | Reference                                        | Recommendation                         |
 | ------------------ | ------------------------ | ------------------------------------------------ | -------------------------------------- |
+| Profile cover      | `public/cover.jpg`       | `profile.cover = "/cover.jpg"`                    | Wide banner, 4:1 (e.g. 1600×400)       |
 | Project cover      | `public/projects/`       | `thumb: "/projects/name.png"`                    | 16:9 (e.g. 1600×900), compressed       |
 | Activity photo     | `public/activities/`     | `photos: [{ src: "/activities/x.jpg", … }]`      | Landscape; displayed ~150px tall (crop)|
-| Avatar             | `public/profile.svg`     | `Home.tsx` → `/profile.svg`                       | Square (rendered 90×90), 1:1           |
+| Avatar             | `public/profile.jpeg`    | `Home.tsx` → `/profile.jpeg`                      | Square; shown as a circle (1:1)        |
 | Résumé             | `public/resume.pdf`      | `profile.resumeUrl`                               | PDF                                    |
 
 Images use plain `<img>` tags (no build-time optimization step required).
