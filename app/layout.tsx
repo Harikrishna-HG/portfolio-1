@@ -54,11 +54,16 @@ export const metadata: Metadata = {
     description: siteDescription,
     creator: "@hrkshnagtm",
   },
+  other: {
+    "msapplication-TileImage": "/apple-icon.png",
+    "msapplication-TileColor": "#8000ff",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#8000ff",
 };
 
 export default function RootLayout({
